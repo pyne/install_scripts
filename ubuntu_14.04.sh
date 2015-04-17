@@ -4,7 +4,7 @@
 # and PyNE is installed within.
 #
 # Run this script from any directory by issuing the command:
-# $ ./vb-build
+# $ ./ubuntu_14.04.sh
 # After the build finishes run:
 #  $ source ~/.bashrc
 # or open a new terminal.
