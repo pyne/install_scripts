@@ -29,7 +29,7 @@ tar zxvf moab-4.6.2.tar.gz
 rm moab-4.6.2.tar.gz
 mkdir build
 cd build
-../moab-4.6.2/configure --enable-shared --prefix=$HOME/.local
+../moab-4.6.2/configure --enable-shared --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/.local
 make
 make install
 export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH
@@ -49,7 +49,7 @@ cd ..
 # Install PyNE
 git clone https://github.com/pyne/pyne.git
 cd pyne
-python setup.py install --hdf5=$HOME/opt/hdf5 --user
+python setup.py install --user
 echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc
 echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
 # Generate nuclear data file
