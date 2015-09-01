@@ -24,13 +24,14 @@ cd opt
 # Install MOAB
 mkdir moab
 cd moab
-git clone https://bitbucket.org/fathomteam/moab/branch/Version4.9.3
-cd Version4.9.3
+git clone https://bitbucket.org/fathomteam/moab
+cd moab
+git checkout -b Version4.8.2 origin/Version4.8.2
 autoreconf -fi
 cd ..
 mkdir build
 cd build
-../Version4.9.2/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab
+../moab/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab
 make
 make install
 export LD_LIBRARY_PATH=$HOME/opt/moab/lib:\$LD_LIBRARY_PATH
