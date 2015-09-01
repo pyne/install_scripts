@@ -14,7 +14,7 @@ IFS=$'\n\t'
 sudo apt-get install -y build-essential python-numpy python-scipy cython \
                         python-nose git cmake vim emacs gfortran libblas-dev \
                         liblapack-dev libhdf5-dev gfortran python-tables \
-                        python-matplotlib python-jinja2
+                        python-matplotlib python-jinja2 autoconf
 # need to put libhdf5.so on LD_LIBRARY_PATH
 export LD_LIBARY_PATH=/usr/lib/x86_64-linux-gnu
 echo "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> ~/.bashrc
@@ -24,8 +24,8 @@ cd opt
 # Install MOAB
 mkdir moab
 cd moab
-git clone https://bitbucket.org/fathomteam/moab/branch/Version4.9.2
-cd Version4.9.2
+git clone https://bitbucket.org/fathomteam/moab/branch/Version4.9.3
+cd Version4.9.3
 autoreconf -fi
 cd ..
 mkdir build
