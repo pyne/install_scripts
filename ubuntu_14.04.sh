@@ -17,7 +17,7 @@ sudo apt-get install -y build-essential python-numpy python-scipy cython \
                         python-matplotlib python-jinja2 autoconf libtool
 # need to put libhdf5.so on LD_LIBRARY_PATH
 export LD_LIBARY_PATH=/usr/lib/x86_64-linux-gnu
-export LIBARY_PATH=/usr/lib/x86_64-linux-gnu
+export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 echo "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> ~/.bashrc
 cd $HOME
 mkdir opt
