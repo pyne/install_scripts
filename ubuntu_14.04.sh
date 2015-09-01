@@ -45,7 +45,7 @@ wget https://pypi.python.org/packages/source/P/PyTAPS/PyTAPS-1.4.tar.gz
 tar zxvf PyTAPS-1.4.tar.gz
 rm PyTAPS-1.4.tar.gz
 cd PyTAPS-1.4/
-python setup.py --iMesh-path=$HOME/opt/moab install --user
+python setup.py --iMesh-path=$HOME/opt/moab --without-iRel --without-iGeom install --user
 cd ..
 # Install PyNE
 git clone https://github.com/pyne/pyne.git
