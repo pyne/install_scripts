@@ -24,38 +24,39 @@ cd opt
 # Install MOAB
 mkdir moab
 cd moab
-wget http://ftp.mcs.anl.gov/pub/fathom/moab-4.6.2.tar.gz
-tar zxvf moab-4.6.2.tar.gz
-rm moab-4.6.2.tar.gz
+git clone https://bitbucket.org/fathomteam/moab/branch/Version4.9.2
+cd Version4.9.2
+autoreconf -fi
+cd ..
 mkdir build
 cd build
-../moab-4.6.2/configure --enable-shared --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/.local
+../Version4.9.2/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab
 make
 make install
-export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH
-export LIBRARY_PATH=$HOME/.local/lib:\$LIBRARY_PATH
-echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
-echo "export LIBRARY_PATH=$HOME/.local/lib:\$LIBRARY_PATH" >> ~/.bashrc
-echo "export CPLUS_INCLUDE_PATH=$HOME/.local/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
-echo "export C_INCLUDE_PATH=$HOME/.local/include:\$C_INCLUDE_PATH" >> ~/.bashrc
+export LD_LIBRARY_PATH=$HOME/opt/moab/lib:\$LD_LIBRARY_PATH
+export LIBRARY_PATH=$HOME/opt/moab/lib:\$LIBRARY_PATH
+echo "export LD_LIBRARY_PATH=$HOME/opt/moab/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
+echo "export LIBRARY_PATH=$HOME/opt/moab/lib:\$LIBRARY_PATH" >> ~/.bashrc
+echo "export CPLUS_INCLUDE_PATH=$HOME/opt/moab/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
+echo "export C_INCLUDE_PATH=$HOME/opt/moab/include:\$C_INCLUDE_PATH" >> ~/.bashrc
 cd ../../
 # Install PyTAPS
 wget https://pypi.python.org/packages/source/P/PyTAPS/PyTAPS-1.4.tar.gz
 tar zxvf PyTAPS-1.4.tar.gz
 rm PyTAPS-1.4.tar.gz
 cd PyTAPS-1.4/
-python setup.py --iMesh-path=$HOME/.local/ install --user
+python setup.py --iMesh-path=$HOME/opt/moab install --user
 cd ..
 # Install PyNE
 git clone https://github.com/pyne/pyne.git
 cd pyne
-python setup.py install --user
+python setup.py install --user -- -DMOAB_LIBRARY=$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
 echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc
 echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
+echo "alias build_pyne = python setup.py install --user -- -DMOAB_LIBRARY=\$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=\$HOME/opt/moab/include" >> ~/.bashrc
 # Generate nuclear data file
-cd scripts
-./nuc_data_make
-cd ..
+./scripts/nuc_data_make
 # Run all the tests
 cd tests
 nosetests
+echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
