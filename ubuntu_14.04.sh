@@ -58,7 +58,6 @@ echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
 echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=\$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=\$HOME/opt/moab/include'" >> ~/.bashrc
 # Generate nuclear data file
 export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
-echo $LD_LIBRARY_PATH
 ./scripts/nuc_data_make
 # Run all the tests
 cd tests
