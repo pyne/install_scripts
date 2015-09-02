@@ -16,7 +16,7 @@ sudo apt-get install -y build-essential python-numpy python-scipy cython \
                         liblapack-dev libhdf5-dev gfortran python-tables \
                         python-matplotlib python-jinja2 autoconf libtool
 # need to put libhdf5.so on LD_LIBRARY_PATH
-export LD_LIBARY_PATH=/usr/lib/x86_64-linux-gnu
+export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 echo "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> ~/.bashrc
 cd $HOME
