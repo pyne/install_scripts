@@ -1,10 +1,10 @@
 #!/bin/bash
 # This script builds the repo version of PyNE (with the MOAB optional 
-# dependency) from scratch on Ubuntu 14.04. The folder $HOME/opt is created 
+# dependency) from scratch on Ubuntu 15.04. The folder $HOME/opt is created 
 # and PyNE is installed within.
 #
 # Run this script from any directory by issuing the command:
-# $ ./ubuntu_14.04.sh
+# $ ./ubuntu_15.04.sh
 # After the build finishes run:
 #  $ source ~/.bashrc
 # or open a new terminal.
