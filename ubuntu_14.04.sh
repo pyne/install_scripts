@@ -61,5 +61,5 @@ export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
 ./scripts/nuc_data_make
 # Run all the tests
 cd tests
-nosetests
+./travis-run-tests.sh
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
