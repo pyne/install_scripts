@@ -1,10 +1,10 @@
 #!/bin/bash
 # This script builds the repo version of PyNE (with the MOAB optional 
-# dependency) from scratch on Ubuntu 15.04. The folder $HOME/opt is created 
+# dependency) from scratch on Ubuntu 14.04. The folder $HOME/opt is created 
 # and PyNE is installed within.
 #
 # Run this script from any directory by issuing the command:
-# $ ./ubuntu_15.04.sh
+# $ ./ubuntu_14.04.sh
 # After the build finishes run:
 #  $ source ~/.bashrc
 # or open a new terminal.
@@ -32,7 +32,7 @@ autoreconf -fi
 cd ..
 mkdir build
 cd build
-../moab/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab
+../moab/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu --prefix=$HOME/opt/moab
 make
 make install
 export LD_LIBRARY_PATH=$HOME/opt/moab/lib:$LD_LIBRARY_PATH
@@ -61,5 +61,5 @@ export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
 ./scripts/nuc_data_make
 # Run all the tests
 cd tests
-nosetests
+./travis-run-tests.sh
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
