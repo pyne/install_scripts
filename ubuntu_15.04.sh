@@ -20,17 +20,20 @@ export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 echo "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> ~/.bashrc
 cd $HOME
-mkdir opt
+mkdir -p opt
 cd opt
 # Install MOAB
-mkdir moab
+mkdir -p moab
 cd moab
+if [ -d moab ] ; then
+    rm -rf moab
+fi    
 git clone https://bitbucket.org/fathomteam/moab
 cd moab
 git checkout -b Version4.8.2 origin/Version4.8.2
 autoreconf -fi
 cd ..
-mkdir build
+mkdir -p build
 cd build
 ../moab/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab
 make
@@ -50,6 +53,9 @@ cd PyTAPS-1.4/
 python setup.py --iMesh-path=$HOME/opt/moab --without-iRel --without-iGeom install --user
 cd ..
 # Install PyNE
+if [ -d pyne ] ; then
+    rm -rf pyne
+fi 
 git clone https://github.com/pyne/pyne.git
 cd pyne
 python setup.py install --user -- -DMOAB_LIBRARY=$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
@@ -61,5 +67,6 @@ export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
 ./scripts/nuc_data_make
 # Run all the tests
 cd tests
-nosetests
+#nosetests
+./travis-run-tests.sh
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
