@@ -4,7 +4,7 @@
 # and PyNE is installed within.
 #
 # Run this script from any directory by issuing the command:
-# $ ./ubuntu_15.04.sh
+# $ ./ubuntu_16.04.sh
 # After the build finishes run:
 #  $ source ~/.bashrc
 # or open a new terminal.
