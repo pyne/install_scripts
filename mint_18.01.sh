@@ -15,7 +15,7 @@ sudo apt-get install -y build-essential python-numpy python-scipy cython \
                         python-nose git cmake vim emacs gfortran libblas-dev \
                         liblapack-dev libhdf5-dev gfortran python-tables \
                         python-matplotlib python-jinja2 autoconf libtool \
-                        automake
+                        automake python-setuptools libpython-dev
 # need to put libhdf5.so on LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
@@ -33,7 +33,7 @@ autoreconf -fi
 cd ..
 mkdir -p build
 cd build
-../moab/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu --prefix=$HOME/opt/moab
+../moab/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab
 make
 make install
 export LD_LIBRARY_PATH=$HOME/opt/moab/lib:$LD_LIBRARY_PATH
