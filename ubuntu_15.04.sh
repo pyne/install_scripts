@@ -54,8 +54,11 @@ python setup.py --iMesh-path=$HOME/opt/moab --without-iRel --without-iGeom insta
 cd ..
 # Install PyNE
 if [ -d pyne ] ; then
-    rm -rf pyne
-fi 
+    read -p "Delete the existing pyne directory and all contents? (y/n) " -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]] ; then
+        rm -rf pyne
+    fi
+fi
 git clone https://github.com/pyne/pyne.git
 cd pyne
 python setup.py install --user -- -DMOAB_LIBRARY=$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
