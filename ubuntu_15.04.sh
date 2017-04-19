@@ -26,8 +26,11 @@ cd opt
 mkdir -p moab
 cd moab
 if [ -d moab ] ; then
-    rm -rf moab
-fi    
+    read -p "Delete the existing moab directory and all contents? (y/n) " -n 1 -r
+    if [[ $REPLY =~ ^[Yy]$ ]] ; then
+        rm -rf moab
+    fi
+fi  
 git clone https://bitbucket.org/fathomteam/moab
 cd moab
 git checkout -b Version4.8.2 origin/Version4.8.2
