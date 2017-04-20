@@ -27,7 +27,7 @@ mkdir moab
 cd moab
 git clone https://bitbucket.org/fathomteam/moab
 cd moab
-git checkout -b Version4.8.2 origin/Version4.8.2
+git checkout -b Version4.9.1 origin/Version4.9.1
 autoreconf -fi
 cd ..
 mkdir build
