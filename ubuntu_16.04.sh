@@ -10,10 +10,10 @@
 # or open a new terminal.
 
 # Use package manager for as many packages as possible
-package_list=build-essential python-numpy python-scipy cython \
-             python-nose git cmake vim emacs gfortran libblas-dev \
-             liblapack-dev libhdf5-dev gfortran python-tables \
-             python-matplotlib python-jinja2 autoconf libtool
+package_list="build-essential python-numpy python-scipy cython 
+             python-nose git cmake vim emacs gfortran libblas-dev 
+             liblapack-dev libhdf5-dev gfortran python-tables 
+             python-matplotlib python-jinja2 autoconf libtool"
 hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
 
 source ubuntu_mint.sh
