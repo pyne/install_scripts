@@ -2,13 +2,12 @@
 # This script contains common code for building PyNE on various Debian-derived systems
 #
 
-function system_update() {
+function system_update {
     
     # Use package manager for as many packages as possible
-    sudo apt-get install -y $package_list
 }
 
-function build_moab() {
+function build_moab {
 
     # Install MOAB
     mkdir -p moab
@@ -38,7 +37,7 @@ function build_moab() {
 }
 
 
-function build_pytaps() {
+function build_pytaps {
 
     # Install PyTAPS
     wget https://pypi.python.org/packages/source/P/PyTAPS/PyTAPS-1.4.tar.gz
@@ -50,7 +49,7 @@ function build_pytaps() {
 
 }
 
-function install_pyne() {
+function install_pyne {
 
 # Install PyNE
     git clone https://github.com/pyne/pyne.git
@@ -62,7 +61,7 @@ function install_pyne() {
 
 }
 
-function nuc_data_make() {
+function nuc_data_make {
 
     # Generate nuclear data file
     export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
@@ -70,7 +69,7 @@ function nuc_data_make() {
     
 }
 
-function test_pyne() {
+function test_pyne {
 
     # Run all the tests
     cd tests
@@ -82,7 +81,8 @@ function test_pyne() {
 set -euo pipefail
 IFS=$'\n\t'
 
-system_update()
+# system update
+eval apt-get install -y $package_list
 
 # need to put libhdf5.so on LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$hdf5_libdir
@@ -93,10 +93,10 @@ cd $HOME
 mkdir -p opt
 cd opt
 
-build_moab()
+build_moab
 
-build_pytaps()
+build_pytaps
 
-install_pyne()
+install_pyne
 
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
