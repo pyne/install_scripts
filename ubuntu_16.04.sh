@@ -20,17 +20,17 @@ export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 echo "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu" >> ~/.bashrc
 cd $HOME
-mkdir opt
+mkdir -p opt
 cd opt
 # Install MOAB
-mkdir moab
+mkdir -p moab
 cd moab
 git clone https://bitbucket.org/fathomteam/moab
 cd moab
 git checkout -b Version4.9.1 origin/Version4.9.1
 autoreconf -fi
 cd ..
-mkdir build
+mkdir -p build
 cd build
 ../moab/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab
 make
