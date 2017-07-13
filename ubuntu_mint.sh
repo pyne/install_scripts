@@ -102,4 +102,8 @@ build_pytaps
 
 install_pyne
 
+nuc_data_make
+
+test_pyne
+
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $install_dir/pyne"
