@@ -77,7 +77,7 @@ function test_pyne {
 
     # Run all the tests
     cd tests
-    . ./travis-run-tests.sh
+    source ./travis-run-tests.sh
 
 }
 
