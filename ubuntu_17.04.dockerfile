@@ -5,10 +5,10 @@ ENV HOME /root
 RUN apt-get -y --force-yes update && \
   apt-get install -y --force-yes \
     software-properties-common python-software-properties wget \
-    build-essential python-numpy python-scipy cython \
-    python-nose git cmake vim emacs gfortran libblas-dev \
-    liblapack-dev libhdf5-dev gfortran python-tables \
-    python-matplotlib python-jinja2 autoconf libtool && \
+    build-essential python3-numpy python3-scipy cython \
+    python3-nose git cmake vim emacs gfortran libblas-dev \
+    liblapack-dev libhdf5-dev gfortran python3-tables \
+    python3-matplotlib python3-jinja2 autoconf libtool && \
   apt-get clean -y
 
 # need to put libhdf5.so on LD_LIBRARY_PATH
@@ -17,6 +17,11 @@ ENV LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 
 # make starting directory
 RUN mkdir -p $HOME/opt
+RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
+    && echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc \
+    && echo "alias build_pyne='python setup.py install --user -j 3 -DMOAB_LIBRARY=\$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=\$HOME/opt/moab/include'" >> ~/.bashrc \
+    && echo "alias python=python3" >> ~/.bashrc \
+    && echo "alias nosetests=nosetests3" >> ~/.bashrc
 
 # build MOAB
 RUN cd $HOME/opt \
@@ -54,10 +59,6 @@ RUN cd $HOME/opt \
     && git clone https://github.com/pyne/pyne.git \
     && cd pyne \
     && python setup.py install --user -DMOAB_LIBRARY=$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include -j 3
-
-RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
-    && echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc \
-    && echo "alias build_pyne='python setup.py install --user -j 3 -DMOAB_LIBRARY=\$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=\$HOME/opt/moab/include'" >> ~/.bashrc
 
 ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 
