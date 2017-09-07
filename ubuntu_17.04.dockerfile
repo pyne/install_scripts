@@ -56,8 +56,7 @@ RUN cd $HOME/opt \
                                 -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
 
 ENV PATH $HOME/.local/bin:$PATH
-
-RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make \
-    && cd tests \
-    && . ./travis-run-tests.sh \
+RUN cd $HOME && nuc_data_make
+RUN cd $HOME/opt/pyne/tests \
+    && nosetests3 \
     && echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
