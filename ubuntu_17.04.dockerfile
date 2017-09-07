@@ -3,7 +3,7 @@ FROM ubuntu:17.04
 ENV HOME /root
 
 RUN apt-get -y --force-yes update && \
-  apt-get install -y \
+  apt-get install -y --fix-missing \
     software-properties-common python-software-properties wget \
     build-essential python3-numpy python3-scipy cython python3-setuptools \
     python3-nose git cmake vim emacs gfortran libblas-dev \
@@ -47,17 +47,17 @@ ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
 ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
 
 # Install PyNE
-#RUN cd $HOME/opt \
-#    && git clone https://github.com/scopatz/pyne.git \
-#    && cd pyne \
-#    && git checkout -b rpath origin/rpath \
-#    && python3 setup.py install --user -j 3 \
-#                                -DMOAB_LIBRARY=$HOME/opt/moab/lib \
-#                                -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
+RUN cd $HOME/opt \
+    && git clone https://github.com/scopatz/pyne.git \
+    && cd pyne \
+    && git checkout -b rpath origin/rpath \
+    && python3 setup.py install --user -j 3 \
+                                -DMOAB_LIBRARY=$HOME/opt/moab/lib \
+                                -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
 
-#ENV PATH $HOME/.local/bin:$PATH
+ENV PATH $HOME/.local/bin:$PATH
 
-#RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make \
-#    && cd tests \
-#    && . ./travis-run-tests.sh \
-#    && echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
+RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make \
+    && cd tests \
+    && . ./travis-run-tests.sh \
+    && echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
