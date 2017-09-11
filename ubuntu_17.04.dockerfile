@@ -12,10 +12,6 @@ RUN apt-get -y --force-yes update && \
     autoconf libtool && \
   apt-get clean -y
 
-# need to put libhdf5.so on LD_LIBRARY_PATH
-ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu/hdf5/serial
-ENV LIBRARY_PATH /usr/lib/x86_64-linux-gnu/hdf5/serial
-
 # make starting directory
 RUN mkdir -p $HOME/opt
 RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
