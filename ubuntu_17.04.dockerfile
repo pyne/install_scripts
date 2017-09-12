@@ -44,9 +44,9 @@ ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
 
 # Install PyNE
 RUN cd $HOME/opt \
-    && git clone https://github.com/scopatz/pyne.git \
+    && git clone https://github.com/pyne/pyne.git \
     && cd pyne \
-    && git checkout -b rpath origin/rpath \
+    && git checkout develop \
     && python3 setup.py install --user -j 3 \
                                 -DMOAB_LIBRARY=$HOME/opt/moab/lib \
                                 -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
