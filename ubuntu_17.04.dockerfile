@@ -47,7 +47,7 @@ RUN cd $HOME/opt \
     && git clone https://github.com/pyne/pyne.git \
     && cd pyne \
     && git checkout develop \
-    && python3 setup.py install --user -j 3 \
+    && python3 setup.py install --user \
                                 -DMOAB_LIBRARY=$HOME/opt/moab/lib \
                                 -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
 
