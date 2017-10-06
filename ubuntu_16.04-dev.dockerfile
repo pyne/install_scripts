@@ -24,11 +24,11 @@ RUN cd $HOME \
 RUN cd $HOME/opt \
   && mkdir moab \
   && cd moab \
-  && git clone https://bitbucket.org/fathomteam/moab \ 
-  && cd moab \ 
-  && git checkout -b Version4.9.1 origin/Version4.9.1 \ 
-  && autoreconf -fi \ 
-  && cd .. \ 
+  && git clone https://bitbucket.org/fathomteam/moab \
+  && cd moab \
+  && git checkout -b Version4.9.1 origin/Version4.9.1 \
+  && autoreconf -fi \
+  && cd .. \
   && mkdir build \
   && cd build \
   && ../moab/configure --enable-shared --enable-dagmc --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab \
@@ -44,10 +44,10 @@ ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
 # build PyTAPS
 RUN cd $HOME/opt \
   && wget https://pypi.python.org/packages/source/P/PyTAPS/PyTAPS-1.4.tar.gz \
-  && tar zxvf PyTAPS-1.4.tar.gz \ 
+  && tar zxvf PyTAPS-1.4.tar.gz \
   && rm PyTAPS-1.4.tar.gz \
   && cd PyTAPS-1.4/ \
-  && python setup.py --iMesh-path=$HOME/opt/moab --without-iRel --without-iGeom install --user \ 
+  && python setup.py --iMesh-path=$HOME/opt/moab --without-iRel --without-iGeom install --user \
   && cd .. \
   && rm -rf PyTAPS-1.4
 
@@ -63,7 +63,8 @@ RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
 
 ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 
-RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make \
-    && cd tests \ 
-    && ./travis-run-tests.sh \
+RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make
+
+RUN cd $HOME/opt/pyne/tests \
+    && ./travis-run-tests.sh python2 \
     && echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
