@@ -117,10 +117,10 @@ build_moab
 
 build_pytaps
 
-install_pyne
+install_pyne $1
 
 nuc_data_make
 
-test_pyne
+test_pyne $1
 
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $install_dir/pyne"
