@@ -12,9 +12,17 @@ Install scripts are available for different versions of both Ubuntu and
 Mint operating systems. The script used to install PyNE should correspond
 to the user's operating system and version. The intention of these
 scripts is that PyNE can be ready to use on a clean install of any of
-the supported operating systems. Example for installing on Ubuntu 16.04:
+the supported operating systems. Furthermore, the user should choose either
+to build a stable version of PyNE or the current develop
+branch of PyNE by supplying a second argument. 
 
-    ./ubuntu_16.04.sh
+Example for installing the most recent stable branch on Ubuntu 16.04:
+
+    ./ubuntu_16.04.sh stable
+    
+Example for installing the develop branch on Mint 18.01:
+	
+	./ubuntu_16.04.sh dev
 
 Docker Builds (*.dockerfile)
 ----------------------------

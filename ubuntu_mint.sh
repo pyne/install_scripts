@@ -58,6 +58,10 @@ function install_pyne {
     check_repo pyne
     git clone https://github.com/pyne/pyne.git
     cd pyne
+    if [ $1 == 'stable' ] ; then
+        TAG=$(git describe --abbrev=0 --tags)
+        git checkout tags/`echo $TAG` -b `echo $TAG`
+    fi
     python setup.py install --user -- -DMOAB_LIBRARY=$install_dir/moab/lib -DMOAB_INCLUDE_DIR=$install_dir/moab/include
     echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc
     echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
