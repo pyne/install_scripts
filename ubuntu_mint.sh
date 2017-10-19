@@ -79,17 +79,23 @@ function nuc_data_make {
 
 function test_pyne {
     
-    # check which python version to run correct tests
-    version=`python -c 'import sys; print(sys.version_info[:][0])'`
+    # only test for python version if using the most recent dev branch
+    if [ $1 == 'dev' ] ; then
+    
+        # check which python version to run correct tests
+        version=`python -c 'import sys; print(sys.version_info[:][0])'`
 
-    # Run all the tests
-    cd tests
-    if [ $version == '2' ] ; then
-        source ./travis-run-tests.sh python2
-    elif [ $version == '3' ] ; then
-        source ./travis-run-tests.sh python3
+        # Run all the tests
+        cd tests
+        if [ $version == '2' ] ; then
+            source ./travis-run-tests.sh python2
+        elif [ $version == '3' ] ; then
+            source ./travis-run-tests.sh python3
+        fi
+
+    elif [ $1 == 'stable' ] ; then
+        source ./travis-run-tests.sh
     fi
-
 }
 
 
