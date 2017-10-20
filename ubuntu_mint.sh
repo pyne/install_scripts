@@ -58,6 +58,10 @@ function install_pyne {
     check_repo pyne
     git clone https://github.com/pyne/pyne.git
     cd pyne
+    if [ $1 == 'stable' ] ; then
+        TAG=$(git describe --abbrev=0 --tags)
+        git checkout tags/`echo $TAG` -b `echo $TAG`
+    fi
     python setup.py install --user -- -DMOAB_LIBRARY=$install_dir/moab/lib -DMOAB_INCLUDE_DIR=$install_dir/moab/include
     echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc
     echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
@@ -74,11 +78,25 @@ function nuc_data_make {
 }
 
 function test_pyne {
-
-    # Run all the tests
+    
     cd tests
-    source ./travis-run-tests.sh
+    
+    # only test for python version if using the most recent dev branch
+    if [ $1 == 'dev' ] ; then
+    
+        # check which python version to run correct tests
+        version=`python -c 'import sys; print(sys.version_info[:][0])'`
 
+        # Run all the tests
+        if [ $version == '2' ] ; then
+            source ./travis-run-tests.sh python2
+        elif [ $version == '3' ] ; then
+            source ./travis-run-tests.sh python3
+        fi
+
+    elif [ $1 == 'stable' ] ; then
+        source ./travis-run-tests.sh
+    fi
 }
 
 
@@ -100,10 +118,10 @@ build_moab
 
 build_pytaps
 
-install_pyne
+install_pyne $1
 
 nuc_data_make
 
-test_pyne
+test_pyne $1
 
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $install_dir/pyne"

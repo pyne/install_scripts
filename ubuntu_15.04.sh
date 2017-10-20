@@ -3,8 +3,9 @@
 # dependency) from scratch on Ubuntu 15.04. The folder $HOME/opt is created 
 # and PyNE is installed within.
 #
-# Run this script from any directory by issuing the command:
-# $ ./ubuntu_15.04.sh
+# Run this script from any directory by issuing the command where <version>
+# is either "dev" or "stable":
+# $ ./ubuntu_15.04.sh <version>
 # After the build finishes run:
 #  $ source ~/.bashrc
 # or open a new terminal.
@@ -18,4 +19,4 @@ package_list="software-properties-common python-software-properties wget \
 hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
 
 
-source ubuntu_mint.sh
+source ubuntu_mint.sh $1
