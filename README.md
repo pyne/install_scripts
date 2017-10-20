@@ -22,7 +22,7 @@ Example for installing the most recent stable branch on Ubuntu 16.04:
     
 Example for installing the develop branch on Mint 18.01:
 	
-	./ubuntu_16.04.sh dev
+	./mint_18.01.sh dev
 
 Docker Builds (*.dockerfile)
 ----------------------------
