@@ -10,7 +10,8 @@ RUN apt-get install -y --force-yes \
 RUN apt-get install -y build-essential python-numpy python-scipy cython \
                        python-nose git cmake vim emacs gfortran libblas-dev \
                        liblapack-dev libhdf5-dev gfortran python-tables \
-                       python-matplotlib python-jinja2 autoconf libtool
+                       python-matplotlib python-jinja2 autoconf libtool \
+                       python-setuptools
 
 # need to put libhdf5.so on LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu
