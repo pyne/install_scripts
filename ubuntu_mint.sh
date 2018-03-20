@@ -11,8 +11,8 @@ function check_repo() {
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
             rm -rf $repo_name
         fi
-    fi  
-    
+    fi
+
 }
 
 function build_moab {
@@ -74,28 +74,21 @@ function nuc_data_make {
     # Generate nuclear data file
     export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH
     ./scripts/nuc_data_make
-    
+
 }
 
 function test_pyne {
-    
+
     cd tests
-    
-    # only test for python version if using the most recent dev branch
-    if [ $1 == 'dev' ] ; then
-    
-        # check which python version to run correct tests
-        version=`python -c 'import sys; print(sys.version_info[:][0])'`
 
-        # Run all the tests
-        if [ $version == '2' ] ; then
-            source ./travis-run-tests.sh python2
-        elif [ $version == '3' ] ; then
-            source ./travis-run-tests.sh python3
-        fi
+    # check which python version to run correct tests
+    version=`python -c 'import sys; print(sys.version_info[:][0])'`
 
-    elif [ $1 == 'stable' ] ; then
-        source ./travis-run-tests.sh
+    # Run all the tests
+    if [ $version == '2' ] ; then
+        source ./travis-run-tests.sh python2
+    elif [ $version == '3' ] ; then
+        source ./travis-run-tests.sh python3
     fi
 }
 
