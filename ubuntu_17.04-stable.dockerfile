@@ -2,15 +2,18 @@ FROM ubuntu:17.04
 
 ENV HOME /root
 
-RUN apt-get -y --force-yes update && \
-  apt-get install -y --fix-missing \
+RUN apt-get update
+RUN apt-get install -y --fix-missing \
     software-properties-common python-software-properties wget \
     build-essential python3-numpy python3-scipy cython python3-setuptools \
     python3-nose git cmake vim emacs gfortran libblas-dev \
     liblapack-dev libhdf5-dev libhdf5-serial-dev gfortran python3-tables \
     python3-matplotlib python3-jinja2 python3-dev libpython3-dev \
-    autoconf libtool && \
-  apt-get clean -y
+    autoconf libtool python-setuptools pythoni3-pip doxygen
+RUN apt-get clean -y
+                       
+
+RUN pip3 install sphinx cloud_sptheme prettytable sphinxcontrib_bibtex numpydoc nbconvert 
 
 # make starting directory
 RUN mkdir -p $HOME/opt
