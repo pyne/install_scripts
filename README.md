@@ -35,3 +35,16 @@ branch of PyNE ("-dev") for each. Example for building a docker image
 of the latest stable branch of PyNE based on Ubuntu 16.04:
 
     docker build -f ubuntu_16.04-stable.dockerfile -t pyne-16.04-stable .
+
+
+To build the PyNE website, run:
+    
+    1. docker build -f ubuntu_16.04-website.dockerfile -t pyne-16.04-website .
+    2. docker run -v PATH_TO_YOUR_PYNE:/local_drive -it pyne-16.04-website
+    3. cd local_drive
+    4. git clean -dfx
+    5. python setup.py install --user -- -DMOAB_LIBRARY=$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
+    6. cd docs
+    7. make html
+
+You should be able to find your local build of the PyNE's website in: PATH_TO_PYNE/docs/_build/html
