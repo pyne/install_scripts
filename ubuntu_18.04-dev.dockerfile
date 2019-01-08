@@ -1,15 +1,19 @@
-FROM ubuntu:17.04
+FROM ubuntu:18.04
+
+ENV TZ=America/Chicago
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ENV HOME /root
+RUN apt-get clean -y
 
 RUN apt-get update
 RUN apt-get install -y --fix-missing \
-    software-properties-common python-software-properties wget \
+    software-properties-common wget g++ \
     build-essential python3-numpy python3-scipy cython python3-setuptools \
     python3-nose git cmake vim emacs gfortran libblas-dev \
     liblapack-dev libhdf5-dev libhdf5-serial-dev gfortran python3-tables \
     python3-matplotlib python3-jinja2 python3-dev libpython3-dev \
-    autoconf libtool python-setuptools pythoni3-pip doxygen
+    autoconf libtool python-setuptools python3-pip doxygen 
 RUN apt-get clean -y
                        
 
@@ -22,13 +26,15 @@ RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
     && echo "alias python=python3" >> ~/.bashrc \
     && echo "alias nosetests=nosetests3" >> ~/.bashrc
 
+RUN gcc --version
+
 # build MOAB
 RUN cd $HOME/opt \
   && mkdir moab \
   && cd moab \
   && git clone https://bitbucket.org/fathomteam/moab \
   && cd moab \
-  && git checkout -b Version4.9.1 origin/Version4.9.1 \
+  && git checkout -b Version5.0 origin/Version5.0 \
   && autoreconf -fi \
   && cd .. \
   && mkdir build \
@@ -47,10 +53,9 @@ ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
 
 # Install PyNE
 RUN cd $HOME/opt \
-    && git clone https://github.com/pyne/pyne.git \
+    && git clone https://github.com/cnerg/pyne.git \
     && cd pyne \
-    && TAG=$(git describe --abbrev=0 --tags) \
-    && git checkout tags/`echo $TAG` -b `echo $TAG` \
+    && git checkout develop \
     && python3 setup.py install --user \
                                 -DMOAB_LIBRARY=$HOME/opt/moab/lib \
                                 -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include

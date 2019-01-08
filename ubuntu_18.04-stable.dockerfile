@@ -2,6 +2,7 @@ FROM ubuntu:17.04
 
 ENV HOME /root
 
+RUN apt-get clean -y
 RUN apt-get update
 RUN apt-get install -y --fix-missing \
     software-properties-common python-software-properties wget \
@@ -49,7 +50,8 @@ ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
 RUN cd $HOME/opt \
     && git clone https://github.com/pyne/pyne.git \
     && cd pyne \
-    && git checkout develop \
+    && TAG=$(git describe --abbrev=0 --tags) \
+    && git checkout tags/`echo $TAG` -b `echo $TAG` \
     && python3 setup.py install --user \
                                 -DMOAB_LIBRARY=$HOME/opt/moab/lib \
                                 -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
