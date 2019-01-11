@@ -28,9 +28,8 @@ RUN cd $HOME \
 RUN cd $HOME/opt \
   && mkdir moab \
   && cd moab \
-  && git clone https://bitbucket.org/fathomteam/moab \
+  && git clone https://bitbucket.org/fathomteam/moab -branch Version5.1.0 --single-branch moab \
   && cd moab \
-  && git checkout -b Version5.1.0 origin/Version5.1.0 \
   && autoreconf -fi \
   && cd .. \
   && mkdir build \
