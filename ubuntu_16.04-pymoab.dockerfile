@@ -28,7 +28,7 @@ RUN cd $HOME \
 RUN cd $HOME/opt \
   && mkdir moab \
   && cd moab \
-  && git clone https://bitbucket.org/fathomteam/moab -branch Version5.1.0 --single-branch moab \
+  && git clone https://bitbucket.org/fathomteam/moab --branch Version5.1.0 --single-branch moab \
   && cd moab \
   && autoreconf -fi \
   && cd .. \
@@ -50,12 +50,12 @@ RUN echo "export PYTHONPATH=/root/opt/moab/lib/python2.7/site-packages:$PYTHONPA
 RUN cd $HOME/opt \
   && mkdir dagmc \
   && cd dagmc \
-  && git clone https://github.com/svalinn/DAGMC.git \
+  && git clone https://github.com/svalinn/DAGMC.git --branch develop --single-branch DAGMC \
   && cd DAGMC \
   && cd .. \
   && mkdir bld \
   && cd bld \
-  && cmake ../DAGMC/ -DMOAB_ROOT=$HOME/opt/moab/ -DCMAKE_INSTALL_PREFIX=$HOME/opt/dagmc \
+  && cmake ../DAGMC/ -DMOAB_DIR=$HOME/opt/moab/ -DCMAKE_INSTALL_PREFIX=$HOME/opt/dagmc \
   && make \
   && make install \
   && cd .. \
@@ -64,7 +64,6 @@ RUN cd $HOME/opt \
 # add DAGMC to path
 ENV LD_LIBRARY_PATH $HOME/opt/dagmc/lib:$LD_LIBRARY_PATH
 ENV LIBRARY_PATH $HOME/opt/dagmc/lib:$LIBRARY_PATH
-
 
 # Install PyNE
 RUN cd $HOME/opt \
