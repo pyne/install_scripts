@@ -50,17 +50,16 @@ RUN echo "export PYTHONPATH=/root/opt/moab/lib/python2.7/site-packages:$PYTHONPA
 RUN cd $HOME/opt \
   && mkdir dagmc \
   && cd dagmc \
-  && git clone https://github.com/ljacobson64/DAGMC.git \
+  && git clone https://github.com/svalinn/DAGMC.git \
   && cd DAGMC \
-  #&& git remote add lucas https://github.com/ljacobson64/DAGMC.git \
-  #&& git fetch lucas \
-  && git checkout -b moab_cmake_var origin/moab_cmake_var \
   && cd .. \
   && mkdir bld \
   && cd bld \
   && cmake ../DAGMC/ -DMOAB_ROOT=$HOME/opt/moab/ -DCMAKE_INSTALL_PREFIX=$HOME/opt/dagmc \
   && make \
-  && make install
+  && make install \
+  && cd .. \
+  && rm -rf bld DAGMC
 
 # add DAGMC to path
 ENV LD_LIBRARY_PATH $HOME/opt/dagmc/lib:$LD_LIBRARY_PATH
