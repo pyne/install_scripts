@@ -45,14 +45,15 @@ ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
 ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
 
 # build PyTAPS
-RUN cd $HOME/opt \
-  && wget https://pypi.python.org/packages/source/P/PyTAPS/PyTAPS-1.4.tar.gz \
-  && tar zxvf PyTAPS-1.4.tar.gz \
-  && rm PyTAPS-1.4.tar.gz \
-  && cd PyTAPS-1.4/ \
-  && python setup.py --iMesh-path=$HOME/opt/moab --without-iRel --without-iGeom install --user \
-  && cd .. \
-  && rm -rf PyTAPS-1.4
+ENV INSTALL_PATH=$HOME/opt/dagmc
+RUN cd /root \\
+    git clone clone https://github.com/svalinn/DAGMC \
+    cd DAGMC \
+    git checkout develop \
+    mkdir bld \
+    cd bld \
+    cmake .. -DMOAB_DIR=$HOME/opt/moab \
+             -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH
 
 # Install PyNE
 RUN cd $HOME/opt \
