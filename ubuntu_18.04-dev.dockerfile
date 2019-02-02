@@ -35,11 +35,12 @@ RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc
 
 # build MOAB
 RUN if [ "$enable_pymoab" = "yes" ] || [ "$build_moab" = "yes" ] || [ "$build_dagmc" = "yes" ] ; then \
-        if [ "$enable_pymaob" = "yes" ] ; \
+        if [ "$enable_pymoab" = "yes" ] ; \
         then \ 
-            PYMOAB_FLAG="-DENABLE_PYMOAB=ON"; \
+            export PYMOAB_FLAG="-DENABLE_PYMOAB=ON"; \
         fi;\
-    cd $HOME/opt \
+    echo $PYMOAB_FLAG \
+    && cd $HOME/opt \
     && mkdir moab \
     && cd moab \
     && git clone https://bitbucket.org/fathomteam/moab \
