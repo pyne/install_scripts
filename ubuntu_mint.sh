@@ -29,7 +29,7 @@ function build_moab {
     cd build
     ../configure --enable-shared --enable-dagmc --with-hdf5=$hdf5_libdir --prefix=$install_dir/moab
     make
-    make install
+    sudo make install
     export LD_LIBRARY_PATH=$install_dir/moab/lib:$LD_LIBRARY_PATH
     export LIBRARY_PATH=$install_dir/moab/lib:$LIBRARY_PATH
     echo "export LD_LIBRARY_PATH=$install_dir/moab/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
@@ -97,7 +97,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # system update
-eval apt-get install -y $package_list
+eval sudo apt-get install -y $package_list
 
 install_dir=$HOME/opt
 mkdir -p $install_dir
