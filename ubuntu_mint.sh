@@ -22,12 +22,12 @@ function build_moab {
     mkdir -p moab
     cd moab
     check_repo moab-repo
-    git clone --branch Version4.9.1 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
+    git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
     cd moab-repo
     autoreconf -fi
     mkdir -p build
     cd build
-    ../configure --enable-shared --enable-dagmc --with-hdf5=$hdf5_libdir --prefix=$install_dir/moab
+    ../configure --enable-shared --enable-dagmc --enable-pymoab --with-hdf5=$hdf5_libdir --prefix=$install_dir/moab
     make
     sudo make install
     export LD_LIBRARY_PATH=$install_dir/moab/lib:$LD_LIBRARY_PATH
@@ -36,19 +36,7 @@ function build_moab {
     echo "export LIBRARY_PATH=$install_dir/moab/lib:\$LIBRARY_PATH" >> ~/.bashrc
     echo "export CPLUS_INCLUDE_PATH=$install_dir/moab/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
     echo "export C_INCLUDE_PATH=$install_dir/moab/include:\$C_INCLUDE_PATH" >> ~/.bashrc
-}
-
-
-function build_pytaps {
-
-    cd $install_dir
-    # Install PyTAPS
-    wget https://pypi.python.org/packages/source/P/PyTAPS/PyTAPS-1.4.tar.gz
-    tar zxvf PyTAPS-1.4.tar.gz
-    rm PyTAPS-1.4.tar.gz
-    cd PyTAPS-1.4/
-    python setup.py --iMesh-path=$install_dir/moab --without-iRel --without-iGeom install --user
-
+    echo "export PYTHONPATH=$install_dir/moab/lib/python2.7/site-packages:$PYTHONPATH" >> ~/.bashrc
 }
 
 function install_pyne {
