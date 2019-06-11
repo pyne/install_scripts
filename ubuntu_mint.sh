@@ -29,7 +29,7 @@ function build_moab {
     cd build
     ../configure --enable-shared --enable-dagmc --enable-pymoab --with-hdf5=$hdf5_libdir --prefix=$install_dir/moab
     make
-    sudo make install
+    make install
     export LD_LIBRARY_PATH=$install_dir/moab/lib:$LD_LIBRARY_PATH
     export LIBRARY_PATH=$install_dir/moab/lib:$LIBRARY_PATH
     echo "export LD_LIBRARY_PATH=$install_dir/moab/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
