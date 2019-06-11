@@ -85,7 +85,9 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # system update
-eval sudo apt-get install -y $package_list
+eval sudo apt-get install -y $apt_package_list
+eval python -m pip install --user --upgrade pip
+eval pip install --user $pip_package_list
 
 install_dir=$HOME/opt
 mkdir -p $install_dir
@@ -96,8 +98,6 @@ export LIBRARY_PATH=$hdf5_libdir
 echo "export LD_LIBRARY_PATH=$hdf5_libdir" >> ~/.bashrc
 
 build_moab
-
-build_pytaps
 
 install_pyne $1
 

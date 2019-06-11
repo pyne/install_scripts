@@ -11,12 +11,13 @@
 # or open a new terminal.
 
 # Use package manager for as many packages as possible
-package_list="software-properties-common python-software-properties wget \
-             build-essential python-numpy python-scipy cython \
-             python-nose git cmake vim emacs gfortran libblas-dev \
-             liblapack-dev libhdf5-dev gfortran python-tables  \
-             python-matplotlib python-jinja2 autoconf libtool \
-             python-setuptools"
+apt_package_list="software-properties-common python-software-properties wget \
+             build-essential git cmake vim emacs gfortran libblas-dev \
+             python-pip liblapack-dev libhdf5-dev gfortran autoconf libtool"
+
+pip_package_list="numpy scipy cython nose tables matplotlib jinja2 \
+                  setuptools"
+
 hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
 
 
