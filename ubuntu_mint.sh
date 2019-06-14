@@ -36,7 +36,13 @@ function build_moab {
     echo "export LIBRARY_PATH=$install_dir/moab/lib:\$LIBRARY_PATH" >> ~/.bashrc
     echo "export CPLUS_INCLUDE_PATH=$install_dir/moab/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
     echo "export C_INCLUDE_PATH=$install_dir/moab/include:\$C_INCLUDE_PATH" >> ~/.bashrc
-    echo "export PYTHONPATH=$install_dir/moab/lib/python2.7/site-packages:\$PYTHONPATH" >> ~/.bashrc
+
+    echo "if [ -z \$PYTHONPATH ]
+then
+    export PYTHONPATH=$install_dir/moab/lib/python2.7/site-packages
+else
+    export PYTHONPATH=$install_dir/moab/lib/python2.7/site-packages:\$PYTHONPATH
+fi" >> ~/.bashrc
 }
 
 function install_pyne {
