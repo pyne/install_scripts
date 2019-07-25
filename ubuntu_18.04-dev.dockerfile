@@ -4,7 +4,7 @@ ENV HOME /root
 
 RUN apt-get -y --force-yes update
 RUN apt-get install -y --force-yes \
-    software-properties-common python-software-properties wget
+    software-properties-common wget
 
 # pyne specific dependencies (excluding python libraries)
 RUN apt-get install -y build-essential git cmake vim emacs gfortran libblas-dev \
@@ -18,7 +18,7 @@ ENV LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 ENV PATH $HOME/.local/bin:$PATH
 RUN python -m pip install --user --upgrade pip
 RUN pip install --user numpy scipy cython nose tables matplotlib jinja2 \
-                       setuptools
+                       setuptools future
 
 # make starting directory
 RUN cd $HOME \

@@ -18,7 +18,7 @@ ENV LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 ENV PATH $HOME/.local/bin:$PATH
 RUN python -m pip install --user --upgrade pip
 RUN pip install --user numpy scipy cython nose tables matplotlib jinja2 \
-                       setuptools
+                       setuptools future
 
 # make starting directory
 RUN cd $HOME \
