@@ -15,7 +15,7 @@ ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 ENV LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 
 # upgrade pip and install python dependencies
-ENV PATH $HOME/.local/bin
+ENV PATH $HOME/.local/bin:$PATH
 RUN python -m pip install --user --upgrade pip
 RUN pip install --user numpy scipy cython nose tables matplotlib jinja2 \
                        setuptools
