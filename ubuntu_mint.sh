@@ -22,12 +22,12 @@ function build_moab {
     mkdir -p moab
     cd moab
     check_repo moab-repo
-    git clone --branch Version4.9.1 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
+    git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
     cd moab-repo
     autoreconf -fi
     mkdir -p build
     cd build
-    ../configure --enable-shared --enable-dagmc --with-hdf5=$hdf5_libdir --prefix=$install_dir/moab
+    ../configure --enable-shared --enable-dagmc --enable-pymoab --with-hdf5=$hdf5_libdir --prefix=$install_dir/moab
     make
     make install
     export LD_LIBRARY_PATH=$install_dir/moab/lib:$LD_LIBRARY_PATH
@@ -36,19 +36,13 @@ function build_moab {
     echo "export LIBRARY_PATH=$install_dir/moab/lib:\$LIBRARY_PATH" >> ~/.bashrc
     echo "export CPLUS_INCLUDE_PATH=$install_dir/moab/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
     echo "export C_INCLUDE_PATH=$install_dir/moab/include:\$C_INCLUDE_PATH" >> ~/.bashrc
-}
 
-
-function build_pytaps {
-
-    cd $install_dir
-    # Install PyTAPS
-    wget https://pypi.python.org/packages/source/P/PyTAPS/PyTAPS-1.4.tar.gz
-    tar zxvf PyTAPS-1.4.tar.gz
-    rm PyTAPS-1.4.tar.gz
-    cd PyTAPS-1.4/
-    python setup.py --iMesh-path=$install_dir/moab --without-iRel --without-iGeom install --user
-
+    echo "if [ -z \$PYTHONPATH ]
+then
+    export PYTHONPATH=$install_dir/moab/lib/python2.7/site-packages
+else
+    export PYTHONPATH=$install_dir/moab/lib/python2.7/site-packages:\$PYTHONPATH
+fi" >> ~/.bashrc
 }
 
 function install_pyne {
@@ -97,7 +91,10 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # system update
-eval apt-get install -y $package_list
+eval sudo apt-get install -y $apt_package_list
+export PATH="$HOME/.local/bin:$PATH"
+eval python -m pip install --user --upgrade pip
+eval pip install --user $pip_package_list
 
 install_dir=$HOME/opt
 mkdir -p $install_dir
@@ -109,12 +106,11 @@ echo "export LD_LIBRARY_PATH=$hdf5_libdir" >> ~/.bashrc
 
 build_moab
 
-build_pytaps
-
 install_pyne $1
 
 nuc_data_make
 
 test_pyne $1
 
+echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $install_dir/pyne"

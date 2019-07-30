@@ -1,10 +1,10 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 ENV HOME /root
 
 RUN apt-get -y --force-yes update
 RUN apt-get install -y --force-yes \
-    software-properties-common python-software-properties wget
+    software-properties-common wget
 
 # pyne specific dependencies (excluding python libraries)
 RUN apt-get install -y build-essential git cmake vim emacs gfortran libblas-dev \
