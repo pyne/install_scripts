@@ -24,6 +24,7 @@ then
         echo "Can't detect your ubuntu version, install 'lbs_core' from apt-get or
         provide your ubuntu version as the last argument to this script (16.04 or
         18.04)"
+        exit 1
     fi
 elif [ $# -eq 2 ]
 then
