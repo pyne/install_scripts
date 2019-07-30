@@ -21,7 +21,7 @@ then
         provide your ubuntu version as a argument to this script (16.04 or
         18.04)"
     fi
-elif [ $# -q 2 ]
+elif [ $# -eq 2 ]
 then
     version=$1
 else
