@@ -75,7 +75,7 @@ function set_base_config() {
 }
 
 
-# Upate the configuration based on the ubuntu version
+# Update the configuration based on the ubuntu version
 function update_config() {
     local arg1=$1
     if [[ ${arg1} == "16.04" ]]
@@ -92,7 +92,7 @@ validate_version ${ubuntu_version}
 
 # Set the base config
 set_base_config
-# Upate the configuration based on the ubuntu version
+# Update the configuration based on the ubuntu version
 update_config ${ubuntu_version}
 
 source Ubuntu_mint.sh $pyne_version
