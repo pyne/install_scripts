@@ -5,22 +5,16 @@
 #
 # Run this script from any directory by issuing the command where <version>
 # is either "dev" or "stable":
-<<<<<<< HEAD
-# $ ./Ubuntu_18.04.sh <version>
-=======
 # $ ./Ubuntu.sh <version> 
 # You can optionnaly specify the Ubuntu version you re using either 16.04 or
 # 18.4:
 # $ ./Ubuntu.sh <version> <Ubuntu_version>
 #
->>>>>>> b96c9a7c8b4e40f931898391ef638236ca8bbeef
 # After the build finishes run:
 #  $ source ~/.bashrc
 # or open a new terminal.
 
 # Use package manager for as many packages as possible
-
-<<<<<<< HEAD
 
 # Dectect Ubuntu version, requires lbs_core package to be installed
 function detect_version() {
