@@ -18,7 +18,7 @@ branch of PyNE by supplying a second argument.
 
 Example for installing the most recent stable branch on Ubuntu 16.04:
 
-    ./ubuntu_16.04.sh stable
+    ./ubuntu.sh stable 16.04
     
 Example for installing the develop branch on Mint 18.01:
 	

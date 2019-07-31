@@ -5,31 +5,45 @@
 #
 # Run this script from any directory by issuing the command where <version>
 # is either "dev" or "stable":
-# $ ./ubuntu_18.04.sh <version>
+<<<<<<< HEAD
+# $ ./Ubuntu_18.04.sh <version>
+=======
+# $ ./Ubuntu.sh <version> 
+# You can optionnaly specify the Ubuntu version you re using either 16.04 or
+# 18.4:
+# $ ./Ubuntu.sh <version> <Ubuntu_version>
+#
+>>>>>>> b96c9a7c8b4e40f931898391ef638236ca8bbeef
 # After the build finishes run:
 #  $ source ~/.bashrc
 # or open a new terminal.
 
 # Use package manager for as many packages as possible
 
+<<<<<<< HEAD
 
-
+# Dectect Ubuntu version, requires lbs_core package to be installed
 function detect_version() {
     local u_version=`lsb_release -r -s`
     if [ -z "$u_version" ]
     then
-        echo "Can't detect your ubuntu version, install 'lbs_core' from apt-get or
-        provide your ubuntu version as a argument to this script (16.04 or
+        echo "Can't detect your Ubuntu version, install 'lbs_core' from apt-get or
+        provide your Ubuntu version as a argument to this script (16.04 or
         18.04)"
     fi
     return $u_version
 }
 
+# Check if the Ubuntu version is a supported one
 function validate_version() {
     local arg1=$1
-    if [ $arg1 != "16.04"] || [ $arg1 != "18.04" ]
+    if [[ $arg1 == "" ]]
     then
-        echo " Only Ubuntu 16.06 and 18.04 are supported by this script use at your
+        echo "Unable to determine the system Ubuntu version, using the default
+        one: 18.04"    
+    elif [[ $arg1 != "16.04" ]] && [[ $arg1 != "18.04" ]]
+    then
+        echo "Only Ubuntu 16.06 and 18.04 are supported by this script use at your
         own risk!"
     fi
 }
@@ -45,33 +59,33 @@ hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
 
 function update_config() {
     local arg1=$1
-    if [ ${arg1} == "16.04" ]
+    if [[ ${arg1} == "16.04" ]]
     then
         apt_package_list="${apt_package_list} python-software-properties"
     fi
 }
 
+function proccess_args() {
+    if [ $# -lt 2 ]
+    then 
+        pyne_version=$1
+        version=$(detect_version)
+    elif [ $# -eq 2 ]
+    then
+        pyne_version=$1
+        version=$2
+    else
+        echo "To many argument provided. this script can only have take 2 optionnal
+        argument:\n
+        - the version of PyNE you wish to install: \"dev\" or \"stable\"\n
+        - the Ubuntu version you are using: \"16.04\" or \"18.04\""
+        exit 1
+    fi
+}
 
-
-if [ $# -le 1 ]
-then 
-    pyne_version=$1
-    version=$(detect_version)
-elif [ $# -eq 2 ]
-then
-    pyne_version=$1
-    version=$1
-else
-    echo "To many argument provided. this script can only have take 2 optionnal
-    argument:\n
-    - the version of PyNE you wish to install: \"dev\" or \"stable\"\n
-    - the ubuntu version you are using: \"16.04\" or \"18.04\""
-    exit 1
-fi
-
+proccess_args $*
 validate_version ${version}
 set_base_config
 update_config ${version}
 
-
-source ubuntu_mint.sh $1
+source Ubuntu_mint.sh $pyne_version
