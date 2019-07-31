@@ -28,8 +28,8 @@ function proccess_args() {
         pyne_version=$1
         ubuntu_version=$2
     else
-        echo "To many arguments provided. This script only accepts 2 \
-optionnal arguments:
+        echo "\
+To many arguments provided. This script only accepts 2 optionnal arguments:
   1. the version of PyNE you wish to install: \"dev\" or \"stable\"
   2. the Ubuntu version you are using: \"16.04\" or \"18.04\""
         exit 1
@@ -42,9 +42,9 @@ function detect_version() {
     ubuntu_version=`lsb_release -r -s`
     if [ -z "$ubuntu_version" ]
     then
-        echo "Can't detect your Ubuntu version, install 'lbs_core' from \
-apt-get or provide your Ubuntu version as the second argument to this script \
-(16.04 or 18.04)"
+        echo "\
+Can't detect your Ubuntu version, install 'lbs_core' from apt-get or provide \ 
+your Ubuntu version as the second argument to this script (16.04 or 18.04)"
     fi
 }
 
@@ -54,12 +54,12 @@ function validate_version() {
     local arg1=$1
     if [[ $arg1 == "" ]]
     then
-        echo "Unable to determine the system Ubuntu version, using the default \
-one: 18.04"    
+        echo "\
+Unable to determine the system Ubuntu version, using the default one: 18.04"    
     elif [[ $arg1 != "16.04" ]] && [[ $arg1 != "18.04" ]]
     then
-        echo "Only Ubuntu 16.06 and 18.04 are supported by this script. Use at \
-your own risk!"
+        echo "\
+Only Ubuntu 16.06 and 18.04 are supported by this script. Use at your own risk!"
     fi
 }
 
