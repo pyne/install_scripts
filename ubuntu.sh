@@ -12,41 +12,66 @@
 
 # Use package manager for as many packages as possible
 
-if [ $# -eq 1 ]
-then 
-    version=`lsb_release -r -s`
-    if [ -z "$var" ]
+
+
+function detect_version() {
+    local u_version=`lsb_release -r -s`
+    if [ -z "$u_version" ]
     then
         echo "Can't detect your ubuntu version, install 'lbs_core' from apt-get or
         provide your ubuntu version as a argument to this script (16.04 or
         18.04)"
     fi
-elif [ $# -eq 2 ]
-then
-    version=$1
-else
-    echo "To many argument provided. this script can only one take 1 optionnal
-    argument: the ubuntu version you are using (16.04 or 18.04)"
-fi
+    return $u_version
+}
 
-if [ $version != "16.04"] || [ $version != "18.04" ]
-then
-    echo " Only Ubuntu 16.06 and 18.04 are supported by this script use at your
-    own risk!"
-fi
+function validate_version() {
+    local arg1=$1
+    if [ $arg1 != "16.04"] || [ $arg1 != "18.04" ]
+    then
+        echo " Only Ubuntu 16.06 and 18.04 are supported by this script use at your
+        own risk!"
+    fi
+}
 
+function set_base_config() {
 apt_package_list="software-properties-common wget \
              build-essential git cmake vim emacs gfortran libblas-dev \
              python-pip liblapack-dev libhdf5-dev autoconf libtool"
-if [ ${version} == "16.04" ]
-then
-    apt_package_list="${apt_package_list} python-software-properties"
-fi
-
 pip_package_list="numpy scipy cython nose tables matplotlib jinja2 \
                   setuptools"
-
 hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
+}
+
+function update_config() {
+    local arg1=$1
+    if [ ${arg1} == "16.04" ]
+    then
+        apt_package_list="${apt_package_list} python-software-properties"
+    fi
+}
+
+
+
+if [ $# -le 1 ]
+then 
+    pyne_version=$1
+    version=$(detect_version)
+elif [ $# -eq 2 ]
+then
+    pyne_version=$1
+    version=$1
+else
+    echo "To many argument provided. this script can only have take 2 optionnal
+    argument:\n
+    - the version of PyNE you wish to install: \"dev\" or \"stable\"\n
+    - the ubuntu version you are using: \"16.04\" or \"18.04\""
+    exit 1
+fi
+
+validate_version ${version}
+set_base_config
+update_config ${version}
 
 
 source ubuntu_mint.sh $1
