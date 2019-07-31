@@ -95,4 +95,4 @@ set_base_config
 # Update the configuration based on the ubuntu version
 update_config ${ubuntu_version}
 
-source Ubuntu_mint.sh $pyne_version
+source ubuntu_mint.sh $pyne_version
