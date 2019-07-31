@@ -59,7 +59,9 @@ Unable to determine the system Ubuntu version, using the default one: 18.04"
     elif [[ $arg1 != "16.04" ]] && [[ $arg1 != "18.04" ]]
     then
         echo "\
-Only Ubuntu 16.06 and 18.04 are supported by this script. Use at your own risk!"
+Only Ubuntu 16.04 and 18.04 are supported by this script.
+Proceeding with configuration for 18.04.
+Use at your own risk!"
     fi
 }
 
