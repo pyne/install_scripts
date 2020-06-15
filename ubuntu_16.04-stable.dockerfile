@@ -8,7 +8,7 @@ RUN apt-get install -y --force-yes \
 
 # pyne specific dependencies (excluding python libraries)
 RUN apt-get install -y build-essential git cmake vim emacs gfortran libblas-dev \
-                       python-pip liblapack-dev libhdf5-dev autoconf libtool
+                       python-pip liblapack-dev libeigen3-dev libhdf5-dev autoconf libtool
 
 # need to put libhdf5.so on LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu
