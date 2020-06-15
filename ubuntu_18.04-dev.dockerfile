@@ -35,7 +35,12 @@ RUN cd $HOME/opt \
   && cd .. \
   && mkdir build \
   && cd build \
-  && ../moab/configure --enable-shared --enable-dagmc --enable-pymoab --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab \
+  && cmake ../moab/ \
+              -DCMAKE_INSTALL_PREFIX=$HOME/opt/moab \
+              -DENABLE_HDF5=ON \
+              -DBUILD_SHARED_LIBS=origin \
+              -DENABLE_BLASLAPACK=OFF \
+              -DENABLE_FORTRAN=OFF \
   && make \
   && make install \
   && cd .. \
