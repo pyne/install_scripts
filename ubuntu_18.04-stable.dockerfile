@@ -84,7 +84,8 @@ RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
 
 ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 
-RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make \
-    && cd tests \
+RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make
+
+RUN cd $HOME/opt/pyne/tests \
     && ./travis-run-tests.sh python2 \
     && echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
