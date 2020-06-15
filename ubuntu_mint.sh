@@ -27,6 +27,7 @@ function build_moab {
     mkdir -p build
     cd build
     cmake ../ -DENABLE_HDF5=ON -DHDF5_ROOT=${hdf5_libdir} \
+              -DBUILD_SHARED_LIBS=ON \
               -DENABLE_PYMOAB=ON \
               -DENABLE_BLASLAPACK=OFF \
               -DENABLE_FORTRAN=OFF \
@@ -50,7 +51,7 @@ else
 fi" >> ~/.bashrc
 }
 
-function install_dagmc {
+function build_dagmc {
 
     # Install DAGMC
     cd $install_dir
@@ -131,6 +132,8 @@ export LIBRARY_PATH=$hdf5_libdir
 echo "export LD_LIBRARY_PATH=$hdf5_libdir" >> ~/.bashrc
 
 build_moab
+
+build_dagmc
 
 install_pyne $1
 
