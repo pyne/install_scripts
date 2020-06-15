@@ -24,10 +24,15 @@ function build_moab {
     check_repo moab-repo
     git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
     cd moab-repo
-    autoreconf -fi
     mkdir -p build
     cd build
-    ../configure --enable-shared --enable-dagmc --enable-pymoab --with-hdf5=$hdf5_libdir --prefix=$install_dir/moab
+    cmake ../ -DENABLE_HDF5=ON -DHDF5_ROOT=${hdf5_libdir} \
+              -DENABLE_PYMOAB=ON \
+              -DENABLE_BLASLAPACK=OFF \
+              -DENABLE_FORTRAN=OFF \
+              -DCMAKE_INSTALL_PREFIX=${install_dir}/moab \
+              -DCMAKE_C_COMPILER=${CC} \
+              -DCMAKE_CXX_COMPILER=${CXX}          -D
     make
     make install
     export LD_LIBRARY_PATH=$install_dir/moab/lib:$LD_LIBRARY_PATH
