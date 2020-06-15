@@ -32,7 +32,7 @@ function build_moab {
               -DENABLE_FORTRAN=OFF \
               -DCMAKE_INSTALL_PREFIX=${install_dir}/moab \
               -DCMAKE_C_COMPILER=${CC} \
-              -DCMAKE_CXX_COMPILER=${CXX}          -D
+              -DCMAKE_CXX_COMPILER=${CXX}
     make
     make install
     export LD_LIBRARY_PATH=$install_dir/moab/lib:$LD_LIBRARY_PATH
