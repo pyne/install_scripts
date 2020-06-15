@@ -145,7 +145,7 @@ install_pyne $1
 
 nuc_data_make
 
-test_pyne $1
+test_pyne
 
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $install_dir/pyne"
