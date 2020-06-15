@@ -39,6 +39,7 @@ RUN cd $HOME/opt \
               -DCMAKE_INSTALL_PREFIX=$HOME/opt/moab \
               -DENABLE_HDF5=ON \
               -DBUILD_SHARED_LIBS=ON \
+              -DENABLE_PYMOAB=ON \
               -DENABLE_BLASLAPACK=OFF \
               -DENABLE_FORTRAN=OFF \
   && make \
@@ -76,7 +77,7 @@ RUN cd $HOME/opt \
                                --moab $HOME/opt/moab \
                                --dagmc $HOME/opt/dagmc \
                                --clean
-                               
+
 RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
     && echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc \
     && echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=\$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=\$HOME/opt/moab/include'" >> ~/.bashrc
