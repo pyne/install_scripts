@@ -38,7 +38,7 @@ RUN cd $HOME/opt \
   && cmake ../moab/ \
               -DCMAKE_INSTALL_PREFIX=$HOME/opt/moab \
               -DENABLE_HDF5=ON \
-              -DBUILD_SHARED_LIBS=origin \
+              -DBUILD_SHARED_LIBS=ON \
               -DENABLE_BLASLAPACK=OFF \
               -DENABLE_FORTRAN=OFF \
   && make \
