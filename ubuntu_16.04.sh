@@ -16,7 +16,7 @@ apt_package_list="software-properties-common python-software-properties wget \
              python-pip liblapack-dev libeigen3-dev libhdf5-dev autoconf libtool"
 
 pip_package_list="numpy scipy cython nose tables matplotlib jinja2 \
-                  setuptools"
+                  setuptools future"
 
 hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
 
