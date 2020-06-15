@@ -13,7 +13,7 @@
 # Use package manager for as many packages as possible
 apt_package_list="software-properties-common python-software-properties wget \
              build-essential git cmake vim emacs gfortran libblas-dev \
-             python-pip liblapack-dev libhdf5-dev autoconf libtool"
+             python-pip liblapack-dev libeigen3-dev libhdf5-dev autoconf libtool"
 
 pip_package_list="numpy scipy cython nose tables matplotlib jinja2 \
                   setuptools"
