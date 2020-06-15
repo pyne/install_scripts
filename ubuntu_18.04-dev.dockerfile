@@ -58,7 +58,8 @@ RUN cd /root \
     && mkdir bld \
     && cd bld \
     && cmake .. -DMOAB_DIR=$HOME/opt/moab \
-             -DCMAKE_INSTALL_PREFIX=$HOME/opt/dagmc \
+              -DBUILD_STATIC_LIBS=OFF \
+              -DCMAKE_INSTALL_PREFIX=$HOME/opt/dagmc \
     && make \
     && make install \
     && cd ../.. \

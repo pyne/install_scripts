@@ -49,6 +49,22 @@ RUN cd $HOME/opt \
 # put MOAB on the path
 ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
 ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
+ENV PYTHONPATH=$HOME/opt/moab/lib/python2.7/site-packages/
+
+RUN cd /root \
+    && git clone https://github.com/svalinn/DAGMC.git \
+    && cd DAGMC \
+    && git checkout develop \
+    && mkdir bld \
+    && cd bld \
+    && cmake .. -DMOAB_DIR=$HOME/opt/moab \
+              -DBUILD_STATIC_LIBS=OFF \
+              -DCMAKE_INSTALL_PREFIX=$HOME/opt/dagmc \
+    && make \
+    && make install \
+    && cd ../.. \
+    && rm -rf DAGMC
+
 
 # Install PyNE
 RUN cd $HOME/opt \
@@ -56,8 +72,11 @@ RUN cd $HOME/opt \
     && cd pyne \
     && TAG=$(git describe --abbrev=0 --tags) \
     && git checkout tags/`echo $TAG` -b `echo $TAG` \
-    && python setup.py install --user -- -DMOAB_LIBRARY=$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
-
+    && python setup.py install --user \
+                               --moab $HOME/opt/moab \
+                               --dagmc $HOME/opt/dagmc \
+                               --clean
+                               
 RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
     && echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc \
     && echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=\$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=\$HOME/opt/moab/include'" >> ~/.bashrc
