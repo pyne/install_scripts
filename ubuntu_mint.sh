@@ -50,6 +50,24 @@ else
 fi" >> ~/.bashrc
 }
 
+function install_dagmc {
+
+    # Install DAGMC
+    cd $install_dir
+    mkdir -p dagmc
+    cd dagmc
+    git clone https://github.com/svalinn/DAGMC.git dagmc-repo
+    cd dagmc-repo
+    git checkout develop
+    mkdir build
+    cd build
+    cmake .. -DMOAB_DIR=${install_dir}/moab \
+             -DBUILD_STATIC_LIBS=OFF \
+             -DCMAKE_INSTALL_PREFIX=${install_dir}/dagmc
+    make
+    make install
+}
+
 function install_pyne {
 
     # Install PyNE
@@ -61,7 +79,10 @@ function install_pyne {
         TAG=$(git describe --abbrev=0 --tags)
         git checkout tags/`echo $TAG` -b `echo $TAG`
     fi
-    python setup.py install --user -- -DMOAB_LIBRARY=$install_dir/moab/lib -DMOAB_INCLUDE_DIR=$install_dir/moab/include
+    python setup.py install --user \
+                               --moab ${install_dir}/moab \
+                               --dagmc ${install_dir}/dagmc \
+                               --clean
     echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc
     echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
     echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=$install_dir/moab/lib -DMOAB_INCLUDE_DIR=$install_dir/moab/include'" >> ~/.bashrc
