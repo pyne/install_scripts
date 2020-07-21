@@ -37,12 +37,13 @@ function build_moab {
     echo "export CPLUS_INCLUDE_PATH=$install_dir/moab/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
     echo "export C_INCLUDE_PATH=$install_dir/moab/include:\$C_INCLUDE_PATH" >> ~/.bashrc
 
-    echo "if [ -z \$PYTHONPATH ]
-then
-    export PYTHONPATH=$install_dir/moab/lib/python2.7/site-packages
-else
-    export PYTHONPATH=$install_dir/moab/lib/python2.7/site-packages:\$PYTHONPATH
-fi" >> ~/.bashrc
+    PYTHON_VERSION= $(python -c 'import sys; print(sys.version.split('')[0][0:3])')
+    echo "if [ -z \$PYTHONPATH ]" >> ~/.bashrc
+    echo "then" >> ~/.bashrc >> ~/.bashrc
+    echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
+    echo "else" >> ~/.bashrc
+    echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
+    echo "fi" >> ~/.bashrc
 }
 
 function install_pyne {
