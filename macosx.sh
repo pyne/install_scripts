@@ -92,8 +92,8 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # system update
-eval brew update $brew_package_list
-eval brew install $apt_package_list
+eval brew update
+eval brew install $brew_package_list
 export PATH="$HOME/.local/bin:$PATH"
 eval python -m pip install --user --upgrade pip
 eval pip install --user $pip_package_list
