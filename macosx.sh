@@ -95,8 +95,8 @@ IFS=$'\n\t'
 eval brew update
 eval brew install $brew_package_list
 export PATH="$HOME/.local/bin:$PATH"
-eval python -m pip install --user --upgrade pip
-eval pip install --user $pip_package_list
+eval pip3 install --user --upgrade pip3
+eval pip3 install --user $pip_package_list
 
 install_dir=$HOME/opt
 mkdir -p $install_dir
@@ -116,4 +116,3 @@ test_pyne $1
 
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
 echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $install_dir/pyne"
-
