@@ -2,13 +2,13 @@ FROM ubuntu:18.04
 
 ENV HOME /root
 
-RUN apt-get -y --force-yes update
-RUN apt-get install -y --force-yes \
+RUN apt-get -y  update
+RUN apt-get install -y  \
     software-properties-common wget
 
 # pyne specific dependencies (excluding python libraries)
 RUN apt-get install -y build-essential git cmake vim emacs gfortran libblas-dev \
-                       python-pip liblapack-dev libhdf5-dev autoconf libtool
+                       python-pip liblapack-dev libeigen3-dev libhdf5-dev autoconf libtool
 
 # need to put libhdf5.so on LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu
@@ -35,7 +35,13 @@ RUN cd $HOME/opt \
   && cd .. \
   && mkdir build \
   && cd build \
-  && ../moab/configure --enable-shared --enable-dagmc --enable-pymoab --with-hdf5=/usr/lib/x86_64-linux-gnu/hdf5/serial --prefix=$HOME/opt/moab \
+  && cmake ../moab/ \
+              -DCMAKE_INSTALL_PREFIX=$HOME/opt/moab \
+              -DENABLE_HDF5=ON \
+              -DBUILD_SHARED_LIBS=ON \
+              -DENABLE_PYMOAB=ON \
+              -DENABLE_BLASLAPACK=OFF \
+              -DENABLE_FORTRAN=OFF \
   && make \
   && make install \
   && cd .. \
@@ -44,6 +50,22 @@ RUN cd $HOME/opt \
 # put MOAB on the path
 ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
 ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
+ENV PYTHONPATH=$HOME/opt/moab/lib/python2.7/site-packages/
+
+RUN cd /root \
+    && git clone https://github.com/svalinn/DAGMC.git \
+    && cd DAGMC \
+    && git checkout develop \
+    && mkdir bld \
+    && cd bld \
+    && cmake .. -DMOAB_DIR=$HOME/opt/moab \
+              -DBUILD_STATIC_LIBS=OFF \
+              -DCMAKE_INSTALL_PREFIX=$HOME/opt/dagmc \
+    && make \
+    && make install \
+    && cd ../.. \
+    && rm -rf DAGMC
+
 
 # Install PyNE
 RUN cd $HOME/opt \
@@ -51,7 +73,10 @@ RUN cd $HOME/opt \
     && cd pyne \
     && TAG=$(git describe --abbrev=0 --tags) \
     && git checkout tags/`echo $TAG` -b `echo $TAG` \
-    && python setup.py install --user -- -DMOAB_LIBRARY=$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=$HOME/opt/moab/include
+    && python setup.py install --user \
+                               --moab $HOME/opt/moab \
+                               --dagmc $HOME/opt/dagmc \
+                               --clean
 
 RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
     && echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc \
@@ -59,7 +84,8 @@ RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
 
 ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 
-RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make \
-    && cd tests \
+RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make
+
+RUN cd $HOME/opt/pyne/tests \
     && ./travis-run-tests.sh python2 \
     && echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
