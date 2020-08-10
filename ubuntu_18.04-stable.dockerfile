@@ -2,8 +2,8 @@ FROM ubuntu:18.04
 
 ENV HOME /root
 
-RUN apt-get -y --force-yes update
-RUN apt-get install -y --force-yes \
+RUN apt-get -y  update
+RUN apt-get install -y  \
     software-properties-common wget
 
 # pyne specific dependencies (excluding python libraries)
