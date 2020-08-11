@@ -128,8 +128,9 @@ mkdir -p $install_dir
 
 build_moab
 
-source ~/.bashrc
 install_pyne $1
+
+source ~/.bashrc
 
 nuc_data_make
 
