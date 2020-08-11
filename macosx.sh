@@ -26,7 +26,7 @@ function build_moab {
     cd moab-repo
     mkdir -p build
     cd build
-    cmake ../ -DENABLE_HDF5=ON -DHDF5_ROOT=${hdf5_libdir} \
+    cmake ../ -DENABLE_HDF5=ON \
               -DBUILD_SHARED_LIBS=ON \
               -DENABLE_PYMOAB=ON \
               -DENABLE_BLASLAPACK=OFF \
@@ -130,10 +130,6 @@ eval pip3 install --user $pip_package_list
 install_dir=$HOME/opt
 mkdir -p $install_dir
 
-# need to put libhdf5.so on LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=$hdf5_libdir
-export LIBRARY_PATH=$hdf5_libdir
-echo "export LD_LIBRARY_PATH=$hdf5_libdir" >> ~/.bashrc
 
 build_moab
 
