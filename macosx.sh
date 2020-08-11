@@ -36,12 +36,7 @@ function build_moab {
     make install
     export LD_LIBRARY_PATH=${install_dir}/moab/lib:$LD_LIBRARY_PATH
     export LIBRARY_PATH=${install_dir}/moab/lib:$LIBRARY_PATH
-    if [ -z \$PYTHONPATH ]
-    then
-        export PYTHONPATH=${install_dir}/moab/lib/python2.7/site-packages
-    else
-        export PYTHONPATH=${install_dir}/moab/lib/python2.7/site-packages:\$PYTHONPATH
-    fi
+    
     echo "export LD_LIBRARY_PATH=${install_dir}/moab/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
     echo "export LIBRARY_PATH=${install_dir}/moab/lib:\$LIBRARY_PATH" >> ~/.bashrc
     echo "export CPLUS_INCLUDE_PATH=${install_dir}/moab/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
