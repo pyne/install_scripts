@@ -124,7 +124,7 @@ IFS=$'\n\t'
 eval brew update
 eval brew install $brew_package_list
 export PATH="$HOME/.local/bin:$PATH"
-eval pip3 install $pip_package_list
+eval sudo pip3 install $pip_package_list
 
 install_dir=$HOME/opt
 mkdir -p $install_dir
