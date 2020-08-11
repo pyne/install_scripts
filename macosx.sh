@@ -90,7 +90,8 @@ function install_pyne {
     echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc
     echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
     echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=$install_dir/moab/lib -DMOAB_INCLUDE_DIR=$install_dir/moab/include'" >> ~/.bashrc
-
+PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
+echo "  export PYTHONPATH=~/.local/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
 }
 
 function nuc_data_make {
@@ -132,6 +133,7 @@ mkdir -p $install_dir
 
 build_moab
 
+source ~/.bashrc
 install_pyne $1
 
 nuc_data_make
