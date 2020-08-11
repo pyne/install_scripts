@@ -48,7 +48,7 @@ function build_moab {
     echo "export C_INCLUDE_PATH=${install_dir}/moab/include:\$C_INCLUDE_PATH" >> ~/.bashrc
 
     PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
-    echo "if [ -z \$PYTHONPATH ]" >> ~/.bashrc
+    echo "if [ -z \"\$PYTHONPATH\" ]" >> ~/.bashrc
     echo "then" >> ~/.bashrc >> ~/.bashrc
     echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
     echo "else" >> ~/.bashrc
