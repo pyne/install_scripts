@@ -18,7 +18,5 @@ brew_package_list="glib python3 wget eigen \
 pip_package_list="numpy scipy cython nose tables matplotlib jinja2 \
                   setuptools h5py"
 
-hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
-
 
 source macosx.sh $1
