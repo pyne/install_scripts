@@ -11,14 +11,12 @@
 # or open a new terminal.
 
 # Use package manager for as many packages as possible
-brew_package_list="software-properties-common python-software-properties wget \
-             build-essential git cmake vim emacs gcc openblas \
-             lapack autoconf libtool"
+brew_package_list="glib python3 wget eigen \
+             git cmake vim emacs gcc openblas \
+             lapack autoconf libtool make hdf5"
 
 pip_package_list="numpy scipy cython nose tables matplotlib jinja2 \
                   setuptools h5py"
-
-hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
 
 
 source macosx.sh $1

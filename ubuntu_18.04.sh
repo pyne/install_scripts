@@ -13,10 +13,10 @@
 # Use package manager for as many packages as possible
 apt_package_list="software-properties-common wget \
              build-essential git cmake vim emacs gfortran libblas-dev \
-             python-pip liblapack-dev libhdf5-dev autoconf libtool"
+             python-pip liblapack-dev libeigen3-dev libhdf5-dev autoconf libtool"
 
 pip_package_list="numpy scipy cython nose tables matplotlib jinja2 \
-                  setuptools"
+                  setuptools future"
 
 hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
 
