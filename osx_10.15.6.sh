@@ -15,7 +15,7 @@ brew_package_list="glib python3 wget eigen \
              git cmake vim emacs gcc openblas \
              lapack autoconf libtool make hdf5"
 
-pip_package_list="numpy scipy cython nose tables matplotlib jinja2 \
+pip_package_list="future numpy scipy cython nose tables matplotlib jinja2 \
                   setuptools h5py"
 
 
