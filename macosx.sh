@@ -125,6 +125,7 @@ mkdir -p $install_dir
 
 build_moab
 
+build_dagmc
 install_pyne $1
 
 run_nuc_data_make
