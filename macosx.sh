@@ -1,7 +1,6 @@
 #!/bin/bash
 # This script contains common code for building PyNE on various Debian-derived systems
 #
-set +u
 
 function check_repo() {
 
