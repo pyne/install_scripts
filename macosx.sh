@@ -110,7 +110,7 @@ function test_pyne {
     cd $install_dir/pyne
     cd tests
 
-    nosetests .
+    travis_travis-run-tests.sh python3
 }
 
 
