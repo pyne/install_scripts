@@ -1,23 +1,25 @@
 #!/bin/bash
 # This script builds the repo version of PyNE (with the MOAB optional 
-# dependency) from scratch on Ubuntu 15.04. The folder $HOME/opt is created 
+# dependency) from scratch on Mint 18.01. The folder $HOME/opt is created 
 # and PyNE is installed within.
 #
-# Run this script from any directory by issuing the command:
-# $ ./ubuntu_16.04.sh
+# Run this script from any directory by issuing the command where <version>
+# is either "dev" or "stable":
+# $ ./mint_18.01.sh <version>
 # After the build finishes run:
 #  $ source ~/.bashrc
 # or open a new terminal.
 
 # Use package manager for as many packages as possible
-package_list="software-properties-common python-software-properties wget \
-             build-essential python-numpy python-scipy cython \
-             python-nose git cmake vim emacs gfortran libblas-dev \
-             liblapack-dev libhdf5-dev gfortran python-tables  \
-             python-matplotlib python-jinja2 autoconf libtool \
-             automake python-setuptools libpython-dev"
+apt_package_list="software-properties-common python-software-properties wget \
+             build-essential git cmake vim emacs gfortran libblas-dev \
+             liblapack-dev libhdf5-dev gfortran autoconf libtool \
+             automake libpython-dev python-pip"
+
+pip_package_list="numpy scipy cython nose tables matplotlib jinja2 \
+                  setuptools"
 
 hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
 
 
-source ubuntu_mint.sh
+source ubuntu_mint.sh $1
