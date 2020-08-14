@@ -6,10 +6,10 @@ function check_repo() {
 
     repo_name=$1
 
-    if [ -d $repo_name ] ; then
+    if [ -d ${repo_name} ] ; then
         read -p "Delete the existing $repo_name directory and all contents? (y/n) " -n 1 -r
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
-            rm -rf $repo_name
+            rm -rf ${repo_name}
         fi
     fi
 
@@ -45,9 +45,9 @@ function build_moab {
     PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
     echo "if [ -n \"\${PYTHONPATH-}\" ]" >> ~/.bashrc
     echo "then" >> ~/.bashrc >> ~/.bashrc
-    echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
+    echo "  export PYTHONPATH=${install_dir}/moab/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
     echo "else" >> ~/.bashrc
-    echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
+    echo "  export PYTHONPATH=${install_dir}/moab/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
     echo "fi" >> ~/.bashrc
     source ~/.bashrc
 }
@@ -74,7 +74,7 @@ function build_dagmc {
 function install_pyne {
 
     # Install PyNE
-    cd $install_dir
+    cd ${install_dir}
     check_repo pyne
     git clone https://github.com/pyne/pyne.git
     cd pyne
@@ -83,9 +83,9 @@ function install_pyne {
         git checkout tags/`echo $TAG` -b `echo $TAG`
     fi
     python setup.py install --user -- -DMOAB_LIBRARY=$install_dir/moab/lib -DMOAB_INCLUDE_DIR=$install_dir/moab/include
-    echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc
-    echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
-    echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=$install_dir/moab/lib -DMOAB_INCLUDE_DIR=$install_dir/moab/include'" >> ~/.bashrc
+    echo "export PATH=${HOME}/.local/bin:\$PATH" >> ~/.bashrc
+    echo "export LD_LIBRARY_PATH=${HOME}/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
+    echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=${install_dir}/moab/lib -DMOAB_INCLUDE_DIR=${install_dir}/moab/include'" >> ~/.bashrc
     PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
     echo "if [ -n \"\${PYTHONPATH-}\" ]" >> ~/.bashrc
     echo "then" >> ~/.bashrc >> ~/.bashrc
@@ -107,7 +107,7 @@ function run_nuc_data_make {
 function test_pyne {
     
     source ~/.bashrc
-    cd $install_dir/pyne
+    cd ${install_dir}/pyne
     cd tests
 
     travis_travis-run-tests.sh python3
@@ -116,12 +116,12 @@ function test_pyne {
 
 # system update
 eval brew update
-eval brew install $brew_package_list
-export PATH="$HOME/.local/bin:$PATH"
-eval sudo pip3 install $pip_package_list
+eval brew install ${brew_package_list}
+export PATH="${HOME}/.local/bin:${PATH}"
+eval sudo pip3 install ${pip_package_list}
 
-install_dir=$HOME/opt
-mkdir -p $install_dir
+install_dir=${HOME}/opt
+mkdir -p ${install_dir}
 
 build_moab
 
@@ -133,4 +133,4 @@ run_nuc_data_make
 test_pyne $1
 
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
-echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $install_dir/pyne"
+echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from ${install_dir}/pyne"
