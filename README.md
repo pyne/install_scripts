@@ -2,7 +2,7 @@ PyNE Install Scripts
 ====================
 
 In this repository, you will find both bash scripts and dockerfiles for various 
-debian-based systems. These scripts will install PyNE and its dependencies to 
+Debian-derived systems. These scripts will install PyNE and its dependencies to 
 either your device or an [image](https://docs.docker.com/get-started/#images-and-containers). 
 Docker allows users to build these images and to operate them separate from the rest of
 your device.
