@@ -84,8 +84,8 @@ function install_pyne {
     fi
     
 
-	python setup.py install --user -- -DMOAB_LIBRARY=${install_dir}/moab/lib
-                                      -DMOAB_INCLUDE_DIR=${install_dir}/moab/include
+	python setup.py install --user -- -DMOAB_LIBRARY=${install_dir}/moab/lib \
+                                      -DMOAB_INCLUDE_DIR=${install_dir}/moab/include \
                                    --dagmc ${install_dir}/dagmc \
                                    --clean    
     
