@@ -8,7 +8,7 @@ function check_repo() {
 
     if [ -d ${repo_name} ] ; then
         read -p "Delete the existing ${repo_name} directory and all contents? (y/n) " -n 1 -r
-        if [[ ${REPLY} =~ ^[Yy]$ ]] ; then
+        if [[ $REPLY =~ ^[Yy]$ ]] ; then
             rm -rf ${repo_name}
         fi
     fi
@@ -36,7 +36,7 @@ function build_moab {
     make install
     
     echo "if [ -n \"\${LD_LIBRARY_PATH-}\" ]" >> ~/.bashrc
-    echo "then" >> ~/.bashrc >> ~/.bashrc
+    echo "then" >> ~/.bashrc 
     echo "  export LD_LIBRARY_PATH=${install_dir}/moab/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
     echo "else" >> ~/.bashrc
     echo "  export LD_LIBRARY_PATH=${install_dir}/moab/lib" >> ~/.bashrc
@@ -44,7 +44,7 @@ function build_moab {
 
     PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
     echo "if [ -n \"\${PYTHONPATH-}\" ]" >> ~/.bashrc
-    echo "then" >> ~/.bashrc >> ~/.bashrc
+    echo "then" >> ~/.bashrc
     echo "  export PYTHONPATH=${install_dir}/moab/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
     echo "else" >> ~/.bashrc
     echo "  export PYTHONPATH=${install_dir}/moab/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
@@ -80,7 +80,7 @@ function install_pyne {
     cd pyne
     if [ $1 == 'stable' ] ; then
         TAG=$(git describe --abbrev=0 --tags)
-        git checkout tags/`echo $TAG` -b `echo $TAG`
+        git checkout tags/`echo ${TAG}` -b `echo ${TAG}`
     fi
     
 
@@ -94,17 +94,17 @@ function install_pyne {
     
    PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
     echo "if [ -n \"\${PYTHONPATH-}\" ]" >> ~/.bashrc
-    echo "then" >> ~/.bashrc >> ~/.bashrc
+    echo "then" >> ~/.bashrc
     echo "  export PYTHONPATH=~/.local/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
     echo "else" >> ~/.bashrc
     echo "  export PYTHONPATH=~/.local/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
     echo "fi" >> ~/.bashrc
+    source ~/.bashrc
 }
 
 function run_nuc_data_make {
 
     cd
-    source ~/.bashrc
     # Generate nuclear data file
     nuc_data_make
 
@@ -112,13 +112,14 @@ function run_nuc_data_make {
 
 function test_pyne {
     
-    source ~/.bashrc
     cd $install_dir/pyne
     cd tests
 
     ./travis-run-tests.sh python3
 }
 
+set -euo pipefail
+IFS=$'\n\t'
 
 # system update
 eval brew update
@@ -126,7 +127,7 @@ eval brew install ${brew_package_list}
 export PATH="${HOME}/.local/bin:${PATH}"
 eval sudo pip3 install ${pip_package_list}
 
-nstall_dir=${HOME}/opt
+install_dir=${HOME}/opt
 mkdir -p ${install_dir}
 
 build_moab
@@ -137,7 +138,7 @@ install_pyne $1
 
 run_nuc_data_make
 
-test_pyne $1
+test_pyne
 
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
-echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $install_dir/pyne"
+echo "PyNE build complete."

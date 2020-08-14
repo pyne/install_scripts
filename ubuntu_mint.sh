@@ -34,14 +34,7 @@ function build_moab {
               -DCMAKE_INSTALL_PREFIX=${install_dir}/moab
     make
     make install
-    export LD_LIBRARY_PATH=${install_dir}/moab/lib:$LD_LIBRARY_PATH
-    export LIBRARY_PATH=${install_dir}/moab/lib:$LIBRARY_PATH
-    if [ -z \$PYTHONPATH ]
-    then
-        export PYTHONPATH=${install_dir}/moab/lib/python2.7/site-packages
-    else
-        export PYTHONPATH=${install_dir}/moab/lib/python2.7/site-packages:\$PYTHONPATH
-    fi
+    
     echo "export LD_LIBRARY_PATH=${install_dir}/moab/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
     echo "export LIBRARY_PATH=${install_dir}/moab/lib:\$LIBRARY_PATH" >> ~/.bashrc
     echo "export CPLUS_INCLUDE_PATH=${install_dir}/moab/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
@@ -49,11 +42,12 @@ function build_moab {
 
     PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
     echo "if [ -z \$PYTHONPATH ]" >> ~/.bashrc
-    echo "then" >> ~/.bashrc >> ~/.bashrc
+    echo "then" >> ~/.bashrc
     echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
     echo "else" >> ~/.bashrc
     echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
     echo "fi" >> ~/.bashrc
+    source ~/.bashrc
 }
 
 function build_dagmc {
@@ -92,31 +86,23 @@ function install_pyne {
                                --clean
     echo "export PATH=${HOME}/.local/bin:\$PATH" >> ~/.bashrc
     echo "export LD_LIBRARY_PATH=${HOME}/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
-    echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=${install_dir}/moab/lib -DMOAB_INCLUDE_DIR=${install_dir}/moab/include'" >> ~/.bashrc
-
+    source ~/.bashrc
 }
 
-function nuc_data_make {
+function run_nuc_data_make {
 
+    cd
     # Generate nuclear data file
-    export LD_LIBRARY_PATH=${HOME}/.local/lib:${LD_LIBRARY_PATH}
-    ./scripts/nuc_data_make
+    nuc_data_make
 
 }
 
 function test_pyne {
 
+    cd $install_dir/pyne
     cd tests
 
-    # check which python version to run correct tests
-    version=`python -c 'import sys; print(sys.version_info[:][0])'`
-
-    # Run all the tests
-    if [ ${version} == '2' ] ; then
-        source ./travis-run-tests.sh python2
-    elif [ ${version} == '3' ] ; then
-        source ./travis-run-tests.sh python3
-    fi
+    ./travis-run-tests.sh python3
 }
 
 
@@ -144,9 +130,9 @@ build_dagmc
 
 install_pyne $1
 
-nuc_data_make
+run_nuc_data_make
 
 test_pyne
 
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
-echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from ${install_dir}/pyne"
+echo "PyNE build complete."
