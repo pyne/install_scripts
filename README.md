@@ -1,8 +1,13 @@
 PyNE Install Scripts
 ====================
 
-This repo contains scripts for installing PyNE on various Debian-derived
-systems.
+In this repository, you will find both bash scripts and dockerfiles for various 
+debian-based systems. These scripts will install PyNE and its dependencies to 
+either your device or an [image](https://docs.docker.com/get-started/#images-and-containers). 
+Docker allows users to build these images and to operate them separate from the rest of
+your device.
+
+You can download Docker [here](https://docs.docker.com/get-docker/).
 
 Bash Scripts (*.sh)
 -------------------
@@ -34,4 +39,4 @@ to build a stable version of PyNE ("-stable") or the current develop
 branch of PyNE ("-dev") for each. Example for building a docker image
 of the latest stable branch of PyNE based on Ubuntu 16.04:
 
-    docker build -f ubuntu_16.04-stable.dockerfile -t pyne-16.04-stable .
+    docker build -f ubuntu_16.04-stable.dockerfile -t pyne-ubuntu-16.04-stable .
