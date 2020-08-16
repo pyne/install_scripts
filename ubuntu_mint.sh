@@ -22,7 +22,7 @@ function build_moab {
     mkdir -p moab
     cd moab
     check_repo moab-repo
-    git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
+    git clone --branch Version5.2.0 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
     cd moab-repo
     mkdir -p build
     cd build
