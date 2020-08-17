@@ -14,6 +14,10 @@ RUN apt-get install -y build-essential git cmake vim emacs gfortran libblas-dev 
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 ENV LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 
+# switch to python 3
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10; \
+    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10;
+
 # upgrade pip and install python dependencies
 ENV PATH $HOME/.local/bin:$PATH
 RUN python3 -m pip install --user --upgrade pip
