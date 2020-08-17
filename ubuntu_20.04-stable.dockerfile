@@ -20,7 +20,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10; \
 
 # upgrade pip and install python dependencies
 ENV PATH $HOME/.local/bin:$PATH
-RUN python3 -m pip install --user --upgrade pip
+RUN python -m pip install --user --upgrade pip
 RUN pip install --user numpy scipy cython nose tables matplotlib jinja2 \
                        setuptools future
 
@@ -72,11 +72,11 @@ RUN cd /root \
 
 # Install PyNE
 RUN cd $HOME/opt \
-    && git clone https://github.com/kkiesling/pyne.git \
+    && git clone https://github.com/pyne/pyne.git \
     && cd pyne \
     && TAG=$(git describe --abbrev=0 --tags) \
     && git checkout origin/0.7.0-rc -b 0.7.0-rc \
-    && python3 setup.py install --user \
+    && python setup.py install --user \
                                --moab $HOME/opt/moab \
                                --dagmc $HOME/opt/dagmc \
                                --clean
@@ -87,7 +87,7 @@ RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
 
 ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 
-RUN cd $HOME/opt/pyne && python3 ./scripts/nuc_data_make
+RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make
 
 RUN cd $HOME/opt/pyne/tests \
     && ./travis-run-tests.sh python3 \
