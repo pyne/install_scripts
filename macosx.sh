@@ -22,11 +22,11 @@ function build_moab {
     mkdir -p moab
     cd moab
     check_repo moab-repo
-    git clone --branch Version5.2.0 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
+    git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
     cd moab-repo
     mkdir -p build
     cd build
-    cmake ../ -DENABLE_HDF5=ON -DHDF5_ROOT=${hdf5_libdir} \
+    cmake ../ -DENABLE_HDF5=ON \
               -DBUILD_SHARED_LIBS=ON \
               -DENABLE_PYMOAB=ON \
               -DENABLE_BLASLAPACK=OFF \
@@ -35,17 +35,19 @@ function build_moab {
     make
     make install
     
-    echo "export LD_LIBRARY_PATH=${install_dir}/moab/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
-    echo "export LIBRARY_PATH=${install_dir}/moab/lib:\$LIBRARY_PATH" >> ~/.bashrc
-    echo "export CPLUS_INCLUDE_PATH=${install_dir}/moab/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
-    echo "export C_INCLUDE_PATH=${install_dir}/moab/include:\$C_INCLUDE_PATH" >> ~/.bashrc
+    echo "if [ -n \"\${LD_LIBRARY_PATH-}\" ]" >> ~/.bashrc
+    echo "then" >> ~/.bashrc 
+    echo "  export LD_LIBRARY_PATH=${install_dir}/moab/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
+    echo "else" >> ~/.bashrc
+    echo "  export LD_LIBRARY_PATH=${install_dir}/moab/lib" >> ~/.bashrc
+    echo "fi" >> ~/.bashrc
 
     PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
-    echo "if [ -z \$PYTHONPATH ]" >> ~/.bashrc
+    echo "if [ -n \"\${PYTHONPATH-}\" ]" >> ~/.bashrc
     echo "then" >> ~/.bashrc
-    echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
+    echo "  export PYTHONPATH=${install_dir}/moab/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
     echo "else" >> ~/.bashrc
-    echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
+    echo "  export PYTHONPATH=${install_dir}/moab/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
     echo "fi" >> ~/.bashrc
     source ~/.bashrc
 }
@@ -80,12 +82,23 @@ function install_pyne {
         TAG=$(git describe --abbrev=0 --tags)
         git checkout tags/`echo ${TAG}` -b `echo ${TAG}`
     fi
-    python setup.py install --user \
-                               --moab ${install_dir}/moab \
-                               --dagmc ${install_dir}/dagmc \
-                               --clean
+    
+
+	python setup.py install --user -- -DMOAB_LIBRARY=${install_dir}/moab/lib \
+                                      -DMOAB_INCLUDE_DIR=${install_dir}/moab/include \
+                                   --dagmc ${install_dir}/dagmc \
+                                   --clean    
+    
     echo "export PATH=${HOME}/.local/bin:\$PATH" >> ~/.bashrc
     echo "export LD_LIBRARY_PATH=${HOME}/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
+    
+   PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
+    echo "if [ -n \"\${PYTHONPATH-}\" ]" >> ~/.bashrc
+    echo "then" >> ~/.bashrc
+    echo "  export PYTHONPATH=~/.local/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
+    echo "else" >> ~/.bashrc
+    echo "  export PYTHONPATH=~/.local/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
+    echo "fi" >> ~/.bashrc
     source ~/.bashrc
 }
 
@@ -98,31 +111,24 @@ function run_nuc_data_make {
 }
 
 function test_pyne {
-
+    
     cd $install_dir/pyne
     cd tests
 
     ./travis-run-tests.sh python3
 }
 
-
 set -euo pipefail
 IFS=$'\n\t'
 
 # system update
-eval sudo apt-get -y update
-eval sudo apt-get install -y ${apt_package_list}
+eval brew update
+eval brew install ${brew_package_list}
 export PATH="${HOME}/.local/bin:${PATH}"
-eval python -m pip install --user --upgrade pip
-eval pip install --user ${pip_package_list}
+eval sudo pip3 install ${pip_package_list}
 
 install_dir=${HOME}/opt
 mkdir -p ${install_dir}
-
-# need to put libhdf5.so on LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=${hdf5_libdir}
-export LIBRARY_PATH=${hdf5_libdir}
-echo "export LD_LIBRARY_PATH=${hdf5_libdir}" >> ~/.bashrc
 
 build_moab
 
