@@ -15,8 +15,8 @@ mkdir -p ${install_dir}
 echo "export LD_LIBRARY_PATH=${hdf5_libdir}" >> ~/.bashrc
 echo "export LIBRARY_PATH=${hdf5_libdir}" >> ~/.bashrc
 
-install_moab ${install_dir}
+./install_moab ${install_dir}
 
-install_dagmc ${install_dir}
+./install_dagmc ${install_dir}
 
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
