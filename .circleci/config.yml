@@ -4,13 +4,13 @@ version: 2.1
 # testing for each configuration allowing to get more information out of the CI
 jobs:
 # CHANGELOG file checker
-  ubuntu_18.04:
+  ubuntu18:
     docker: 
       name: ubuntu:18.04
     working_directory: ~/
     steps:
       - run: 
-        name: Until we Build a proper img
+        name: Until we build a proper img
         command: |
           apt-get update; apt-get install -y git vim sudo python3 python3-pip build-essential
           update-alternatives --install /usr/bin/python python /usr/bin/python3 10
@@ -33,9 +33,9 @@ jobs:
 # with limited amount of dependencies.
 workflows:
   version: 2
-  build_and_test:
+  build:
     jobs:
-      - ubuntu_18.04:
+      - ubuntu18:
           filters:
             branches:
               ignore: develop
