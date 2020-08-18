@@ -41,11 +41,13 @@ pip3 install --user ${pip_package_list}
 install_dir=${HOME}/opt
 mkdir -p ${install_dir}
 
-# need to put libhdf5.so on LD_LIBRARY_PATH
-echo "export LD_LIBRARY_PATH=${hdf5_libdir}" >> ~/.bashrc
-echo "export LIBRARY_PATH=${hdf5_libdir}" >> ~/.bashrc
+# need to put libhdf5.so on LD_LIBRARY_PATH (Makeing sure that LD_LIBRARY_PATH is defined first)
+if [ -z $LD_LIBRARY_PATH ]; then
+  export LD_LIBRARY_PATH="${hdf5_libdir}"
+else
+    export LD_LIBRARY_PATH="${hdf5_libdir}:$LD_LIBRARY_PATH"
+fi
 
-source ~/.bashrc
 
 ############
 ### MOAB ###
@@ -74,16 +76,16 @@ make
 make install
 
 # Adding MOAB/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
-add_export_var_to_bashrc 'LD_LIBRARY_PATH' "${install_dir}/moab/lib"
-add_export_var_to_bashrc 'LIBRARY_PATH' "${install_dir}/moab/lib"
+export LD_LIBRARY_PATH="${install_dir}/moab/lib:$LD_LIBRARY_PATH"
 
-# Adding MOAB/include to $CPLUS_INCLUDE_PATH and $_INCLUDE_PATH
-add_export_var_to_bashrc 'CPLUS_INCLUDE_PATH' "${install_dir}/moab/include"
-add_export_var_to_bashrc 'C_INCLUDE_PATH' "${install_dir}/moab/include"
 
 # Adding pymoab to $PYTHONPATH
 PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
-add_export_var_to_bashrc 'PYTHONPATH' "$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages"
+if [ -z $PYTHONPATH ]; then
+  export PYTHONPATH="${hdf5_libdir}"
+else
+  export PYTHONPATH="$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages:$PYTHONPATH"
+fi
 
 
 #############
@@ -92,7 +94,6 @@ add_export_var_to_bashrc 'PYTHONPATH' "$install_dir/moab/lib/python${PYTHON_VERS
 
 # Making sure MOAB is in the LD_LIBRARY_PATH
 source ~/.bashrc
-echo "LD_LIBRARY_PATH ${LD_LIBRARY_PATH}"
 
 # pre-setup
 cd ${install_dir}
@@ -115,12 +116,15 @@ make
 make install
 
 # Adding DAGMC/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
-add_export_var_to_bashrc "LD_LIBRARY_PATH" "${install_dir}/dagmc/lib"
-add_export_var_to_bashrc "LIBRARY_PATH" "${install_dir}/dagmc/lib"
+export LD_LIBRARY_PATH="${install_dir}/dagmc/lib:$LD_LIBRARY_PATH"
 
 # Adding dagmc/bin to $PATH
 add_export_var_to_bashrc "PATH" "${install_dir}/dagmc/bin"
-
+if [ -z ${PATH} ]; then
+  export PATH="${install_dir}/dagmc/bin"
+else
+  export PATH="${install_dir}/dagmc/bin:$PATH"
+fi
 
 ############
 ### PyNE ###
@@ -147,11 +151,9 @@ python setup.py install --user \
                             --clean
 
 # Adding .local/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
-add_export_var_to_bashrc "LD_LIBRARY_PATH" "${HOME}/.local/lib"
-add_export_var_to_bashrc "LIBRARY_PATH" "${HOME}/.local/lib"
-
+export LD_LIBRARY_PATH="${HOME}/.local/lib:$LD_LIBRARY_PATH"
 # Adding .local//bin to $PATH
-add_export_var_to_bashrc "PATH" "${HOME}/.local/bin"
+export PATH="${HOME}/.local/bin:$PATH"
 
 # Make Pyne Nuclear Data
 source ~/.bashrc
@@ -161,6 +163,27 @@ nuc_data_make
 # Run tests
 cd ${install_dir}/pyne/tests
 ./travis-run-tests.sh
+
+echo "export LD_LIBRARY_PATH=${hdf5_libdir}" >> ~/.bashrc
+
+# Adding MOAB/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
+add_export_var_to_bashrc 'LD_LIBRARY_PATH' "${install_dir}/moab/lib"
+
+# Adding pymoab to $PYTHONPATH
+PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
+add_export_var_to_bashrc 'PYTHONPATH' "$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages"
+
+# Adding DAGMC/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
+add_export_var_to_bashrc "LD_LIBRARY_PATH" "${install_dir}/dagmc/lib"
+
+# Adding dagmc/bin to $PATH
+add_export_var_to_bashrc "PATH" "${install_dir}/dagmc/bin"
+
+# Adding .local/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
+add_export_var_to_bashrc "LD_LIBRARY_PATH" "${HOME}/.local/lib"
+
+# Adding .local//bin to $PATH
+add_export_var_to_bashrc "PATH" "${HOME}/.local/bin"
 
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
 
