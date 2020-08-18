@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   ubuntu18:
     docker: 
-      name: ubuntu:18.04
+      - image: ubuntu:18.04
     working_directory: ~/
     steps:
       - run: apt-get update; 
