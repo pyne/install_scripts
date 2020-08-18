@@ -35,10 +35,4 @@ workflows:
   version: 2
   build:
     jobs:
-      - ubuntu18:
-          filters:
-            branches:
-              ignore: develop
-            tags:
-              ignore: /.*/   
- 
+      - ubuntu18
