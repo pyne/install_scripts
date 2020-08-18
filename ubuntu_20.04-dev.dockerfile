@@ -9,7 +9,7 @@ RUN apt-get install -y  \
 # pyne specific dependencies (excluding python libraries)
 RUN apt-get install -y build-essential git cmake gfortran libblas-dev \
                        python3-pip liblapack-dev libeigen3-dev libhdf5-dev \
-                       libpython3-dev python3-dev libhdf5-serial-dev hdf5-tools
+                       hdf5-tools
 
 # need to put libhdf5.so on LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu
