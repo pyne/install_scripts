@@ -13,7 +13,7 @@ Bash Scripts (*.sh)
 -------------------
 
 These scripts will install PyNE and its dependencies on the system.
-Install script is available for different versions of both Ubuntu and
+An install script is available for different versions of both Ubuntu and
 Mint operating systems. The intention of these
 scripts is that PyNE can be ready to use on a clean install of any of
 the supported operating systems. Furthermore, the user should choose either
