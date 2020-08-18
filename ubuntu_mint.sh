@@ -100,7 +100,8 @@ function nuc_data_make {
 
     # Generate nuclear data file
     export LD_LIBRARY_PATH=${HOME}/.local/lib:${LD_LIBRARY_PATH}
-    ./scripts/nuc_data_make
+    cd ${HOME}
+    nuc_data_make
 
 }
 

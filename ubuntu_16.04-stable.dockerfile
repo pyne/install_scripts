@@ -84,7 +84,7 @@ RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
 
 ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 
-RUN cd $HOME/opt/pyne && ./scripts/nuc_data_make
+RUN cd $HOME && nuc_data_make
 
 RUN cd $HOME/opt/pyne/tests \
     && ./travis-run-tests.sh python2 \
