@@ -45,7 +45,7 @@ mkdir -p ${install_dir}
 if [ -z $LD_LIBRARY_PATH ]; then
   export LD_LIBRARY_PATH="${hdf5_libdir}"
 else
-    export LD_LIBRARY_PATH="${hdf5_libdir}:$LD_LIBRARY_PATH"
+  export LD_LIBRARY_PATH="${hdf5_libdir}:$LD_LIBRARY_PATH"
 fi
 
 
@@ -66,11 +66,11 @@ cd build
 
 # cmake, build and install
 cmake ../ -DENABLE_HDF5=ON -DHDF5_ROOT=${hdf5_libdir} \
-            -DBUILD_SHARED_LIBS=ON \
-            -DENABLE_PYMOAB=ON \
-            -DENABLE_BLASLAPACK=OFF \
-            -DENABLE_FORTRAN=OFF \
-            -DCMAKE_INSTALL_PREFIX=${install_dir}/moab
+          -DBUILD_SHARED_LIBS=ON \
+          -DENABLE_PYMOAB=ON \
+          -DENABLE_BLASLAPACK=OFF \
+          -DENABLE_FORTRAN=OFF \
+          -DCMAKE_INSTALL_PREFIX=${install_dir}/moab
 make
 make install
 
@@ -105,8 +105,8 @@ cd build
 
 # cmake, build and install
 cmake .. -DMOAB_DIR=${install_dir}/moab \
-            -DBUILD_STATIC_LIBS=OFF \
-            -DCMAKE_INSTALL_PREFIX=${install_dir}/dagmc
+         -DBUILD_STATIC_LIBS=OFF \
+         -DCMAKE_INSTALL_PREFIX=${install_dir}/dagmc
 make
 make install
 
@@ -133,17 +133,17 @@ check_repo pyne
 git clone https://github.com/pyne/pyne.git
 cd pyne
 if [ $1 == 'stable' ] ; then
-    TAG=$(git describe --abbrev=0 --tags)
-    git checkout tags/`echo ${TAG}` -b `echo ${TAG}`
+  TAG=$(git describe --abbrev=0 --tags)
+  git checkout tags/`echo ${TAG}` -b `echo ${TAG}`
 fi
 
 # Temp during release candidate
 git checkout 0.7.0-rc
 
 python setup.py install --user \
-                            --moab ${install_dir}/moab \
-                            --dagmc ${install_dir}/dagmc \
-                            --clean
+                        --moab ${install_dir}/moab \
+                        --dagmc ${install_dir}/dagmc \
+                        --clean
 
 # Adding .local/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
 export LD_LIBRARY_PATH="${HOME}/.local/lib:$LD_LIBRARY_PATH"
