@@ -128,10 +128,11 @@ fi
 # pre-setup
 cd ${install_dir}
 check_repo pyne
-
-# clone and version
-git clone https://github.com/pyne/pyne.git
+mkdir -p pyne
 cd pyne
+# clone and version
+git clone https://github.com/pyne/pyne.git pyne-repo
+cd pyne-repo
 if [ $1 == 'stable' ] ; then
   TAG=$(git describe --abbrev=0 --tags)
   git checkout tags/`echo ${TAG}` -b `echo ${TAG}`
@@ -190,4 +191,3 @@ else \n
 fi \n
 " >> .bashrc
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
-
