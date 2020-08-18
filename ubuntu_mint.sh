@@ -2,60 +2,6 @@
 # This script contains common code for building PyNE on various Debian-derived systems
 #
 
-function check_repo() {
-
-    repo_name=$1
-
-    if [ -d ${repo_name} ] ; then
-        read -p "Delete the existing ${repo_name} directory and all contents? (y/n) " -n 1 -r
-        if [[ $REPLY =~ ^[Yy]$ ]] ; then
-            rm -rf ${repo_name}
-        fi
-    fi
-
-}
-
-function build_moab {
-
-    # Install MOAB
-    cd ${install_dir}
-    mkdir -p moab
-    cd moab
-    check_repo moab-repo
-    git clone --branch Version5.2.0 --single-branch https://bitbucket.org/fathomteam/moab moab-repo
-    cd moab-repo
-    mkdir -p build
-    cd build
-    cmake ../ -DENABLE_HDF5=ON -DHDF5_ROOT=${hdf5_libdir} \
-              -DBUILD_SHARED_LIBS=ON \
-              -DENABLE_PYMOAB=ON \
-              -DENABLE_BLASLAPACK=OFF \
-              -DENABLE_FORTRAN=OFF \
-              -DCMAKE_INSTALL_PREFIX=${install_dir}/moab
-    make
-    make install
-    export LD_LIBRARY_PATH=${install_dir}/moab/lib:$LD_LIBRARY_PATH
-    export LIBRARY_PATH=${install_dir}/moab/lib:$LIBRARY_PATH
-    if [ -z \$PYTHONPATH ]
-    then
-        export PYTHONPATH=${install_dir}/moab/lib/python2.7/site-packages
-    else
-        export PYTHONPATH=${install_dir}/moab/lib/python2.7/site-packages:\$PYTHONPATH
-    fi
-    echo "export LD_LIBRARY_PATH=${install_dir}/moab/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
-    echo "export LIBRARY_PATH=${install_dir}/moab/lib:\$LIBRARY_PATH" >> ~/.bashrc
-    echo "export CPLUS_INCLUDE_PATH=${install_dir}/moab/include:\$CPLUS_INCLUDE_PATH" >> ~/.bashrc
-    echo "export C_INCLUDE_PATH=${install_dir}/moab/include:\$C_INCLUDE_PATH" >> ~/.bashrc
-
-    PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
-    echo "if [ -z \$PYTHONPATH ]" >> ~/.bashrc
-    echo "then" >> ~/.bashrc >> ~/.bashrc
-    echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages" >> ~/.bashrc
-    echo "else" >> ~/.bashrc
-    echo "  export PYTHONPATH=$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages:\$PYTHONPATH" >> ~/.bashrc
-    echo "fi" >> ~/.bashrc
-}
-
 function build_dagmc {
 
     # Install DAGMC
@@ -76,23 +22,6 @@ function build_dagmc {
 }
 
 function install_pyne {
-
-    # Install PyNE
-    cd ${install_dir}
-    check_repo pyne
-    git clone https://github.com/pyne/pyne.git
-    cd pyne
-    if [ $1 == 'stable' ] ; then
-        TAG=$(git describe --abbrev=0 --tags)
-        git checkout tags/`echo ${TAG}` -b `echo ${TAG}`
-    fi
-    python setup.py install --user \
-                               --moab ${install_dir}/moab \
-                               --dagmc ${install_dir}/dagmc \
-                               --clean
-    echo "export PATH=${HOME}/.local/bin:\$PATH" >> ~/.bashrc
-    echo "export LD_LIBRARY_PATH=${HOME}/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc
-    echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=${install_dir}/moab/lib -DMOAB_INCLUDE_DIR=${install_dir}/moab/include'" >> ~/.bashrc
 
 }
 
