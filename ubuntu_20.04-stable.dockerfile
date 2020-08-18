@@ -33,7 +33,7 @@ RUN cd $HOME \
 RUN cd $HOME/opt \
   && mkdir moab \
   && cd moab \
-  && git clone --branch Version5.2.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
+  && git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
   && mkdir build \
   && cd build \
   && cmake ../moab/ \
