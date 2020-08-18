@@ -20,7 +20,7 @@ echo "if [ -z $1 ]" >> ~/.bashrc
 echo "then" >> ~/.bashrc
 echo "  export $1=$2" >> ~/.bashrc
 echo "else" >> ~/.bashrc
-echo "  export $1=$2:$\{${1}\}" >> ~/.bashrc
+echo "  export $1=$2:\$${1}" >> ~/.bashrc
 echo "fi" >> ~/.bashrc
 
 }
