@@ -1,0 +1,44 @@
+version: 2.1
+
+# Define the different job that will be ran this separate building form
+# testing for each configuration allowing to get more information out of the CI
+jobs:
+# CHANGELOG file checker
+  ubuntu_18.04:
+    docker: 
+      name: ubuntu:18.04
+    working_directory: ~/
+    steps:
+      - run: 
+        name: Until we Build a proper img
+        command: |
+          apt-get update; apt-get install -y git vim sudo python3 python3-pip build-essential
+          update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+          update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
+          cd
+          git clone https://github.com/bam241/install_scripts
+          cd install_scripts/
+          git checkout revamping
+          rm ~/.bashrc
+      - checkout
+      - run:
+          name: install pyne and its deps
+          command: ./ubuntu18.04 dev
+ 
+
+
+# Workflow part:
+# This part defines the list of the jobs that will be ran and in which sequence.
+# The goal was to avoid running advanced configuration if PyNE does not work
+# with limited amount of dependencies.
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - ubuntu_18.04:
+          filters:
+            branches:
+              ignore: develop
+            tags:
+              ignore: /.*/   
+ 
