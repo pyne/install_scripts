@@ -19,4 +19,6 @@ echo "export LIBRARY_PATH=${hdf5_libdir}" >> ~/.bashrc
 
 ./install_dagmc.sh ${install_dir}
 
+./install_pyne.sh
+
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
