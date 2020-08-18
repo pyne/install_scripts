@@ -94,8 +94,6 @@ add_export_var_to_bashrc 'PYTHONPATH' "$install_dir/moab/lib/python${PYTHON_VERS
 source ~/.bashrc
 echo "LD_LIBRARY_PATH ${LD_LIBRARY_PATH}"
 
-install_dir=$1
-
 # pre-setup
 cd ${install_dir}
 check_repo dagmc
