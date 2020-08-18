@@ -86,5 +86,5 @@ ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 RUN cd $HOME && nuc_data_make
 
 RUN cd $HOME/opt/pyne/tests \
-    && ./travis-run-tests.sh python3 \
+    && ./travis-run-tests.sh \
     && echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
