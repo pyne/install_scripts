@@ -1,6 +1,7 @@
 #!/bin/bash
 # Use package manager for as many packages as possible
 apt_package_list="software-properties-common \
+                  python3-pip \
                   wget \
                   build-essential \
                   git \
@@ -35,8 +36,7 @@ source utils.sh
 # system update
 sudo apt-get -y update
 sudo apt-get install -y ${apt_package_list}
-python -m pip install --user --upgrade pip
-pip install --user ${pip_package_list}
+pip3 install --user ${pip_package_list}
 
 install_dir=${HOME}/opt
 mkdir -p ${install_dir}
