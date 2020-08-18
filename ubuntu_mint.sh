@@ -2,12 +2,9 @@
 # This script contains common code for building PyNE on various Debian-derived systems
 #
 
-
-
 # system update
 eval sudo apt-get -y update
 eval sudo apt-get install -y ${apt_package_list}
-export PATH="${HOME}/.local/bin:${PATH}"
 eval python -m pip install --user --upgrade pip
 eval pip install --user ${pip_package_list}
 
