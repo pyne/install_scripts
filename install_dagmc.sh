@@ -6,7 +6,7 @@ source utils.sh
 
 # Making sure MOAB is in the LD_LIBRARY_PATH
 source ~/.bashrc
-echo "LD_LIBRARY_PATH $LD_LIBRARY_PATH"
+echo "LD_LIBRARY_PATH ${LD_LIBRARY_PATH}"
 
 install_dir=$1
 
