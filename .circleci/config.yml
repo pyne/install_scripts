@@ -3,7 +3,7 @@ jobs:
   ubuntu18:
     docker: 
       - image: ubuntu:18.04
-    working_directory: ~/
+    working_directory: ~/pyne
     steps:
       - run: apt-get update; 
       - run: apt-get install -y git vim sudo python3 python3-pip build-essential
