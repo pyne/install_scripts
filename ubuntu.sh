@@ -77,7 +77,6 @@ make install
 # Adding MOAB/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
 export LD_LIBRARY_PATH="${install_dir}/moab/lib:$LD_LIBRARY_PATH"
 
-
 # Adding pymoab to $PYTHONPATH
 PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
 if [ -z $PYTHONPATH ]; then
@@ -114,7 +113,6 @@ make install
 export LD_LIBRARY_PATH="${install_dir}/dagmc/lib:$LD_LIBRARY_PATH"
 
 # Adding dagmc/bin to $PATH
-add_export_var_to_bashrc "PATH" "${install_dir}/dagmc/bin"
 if [ -z ${PATH} ]; then
   export PATH="${install_dir}/dagmc/bin"
 else
@@ -166,24 +164,20 @@ if [ -z \$LD_LIBRARY_PATH ]; then \n
 else \n
   export LD_LIBRARY_PATH=\"\${hdf5_libdir}:\$LD_LIBRARY_PATH\" \n
 fi \n
-export LD_LIBRARY_PATH=\"\${install_dir}/moab/lib:\$LD_LIBRARY_PATH\" \n
+# Adding MOAB/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
+export LD_LIBRARY_PATH="${install_dir}/moab/lib:$LD_LIBRARY_PATH"
 
-# Adding pymoab to \$PYTHONPATH \n
-PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])') \n
-if [ -z \$PYTHONPATH ]; then \n
-  export PYTHONPATH=\"\$install_dir/moab/lib/python\${PYTHON_VERSION}/site-packages\" \n
-else \n
-  export PYTHONPATH=\"\$install_dir/moab/lib/python\${PYTHON_VERSION}/site-packages:\$PYTHONPATH\" \n
-fi \n
-
-# Adding MOAB/lib to \$LD_LIBRARY_PATH and \$LIBRARY_PATH \n
-add_export_var_to_bashrc 'LD_LIBRARY_PATH' \"\${install_dir}/moab/lib\" \n
+# Adding pymoab to \$PYTHONPATH
+PYTHON_VERSION=\$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
+if [ -z $PYTHONPATH ]; then
+  export PYTHONPATH="$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages"
+else
+  export PYTHONPATH="$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages:$PYTHONPATH"
+fi
 
 export LD_LIBRARY_PATH=\"\${install_dir}/dagmc/lib:\$LD_LIBRARY_PATH\" \n
-
 # Adding dagmc/bin to \$PATH \n
-add_export_var_to_bashrc \"PATH\" \"\${install_dir}/dagmc/bin\" \n
-if [ -z \${PATH} ]; then \n
+=if [ -z \${PATH} ]; then \n
   export PATH=\"\${install_dir}/dagmc/bin\" \n
 else \n
   export PATH=\"\${install_dir}/dagmc/bin:\$PATH\" \n
