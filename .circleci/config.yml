@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run:
           name: install pyne and its deps
-          command: ./ubuntu18.04 dev
+          command: ./ubuntu_18.04 dev
  
 # Workflow part:
 workflows:
