@@ -50,7 +50,7 @@ RUN cd $HOME/opt \
 # put MOAB on the path
 ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
 ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
-ENV PYTHONPATH=$HOME/opt/moab/lib/python3.8/site-packages/
+ENV PYTHONPATH=$HOME/opt/moab/lib/python3.6/site-packages/
 
 RUN cd /root \
     && git clone --branch develop --single-branch https://github.com/svalinn/DAGMC.git DAGMC \
