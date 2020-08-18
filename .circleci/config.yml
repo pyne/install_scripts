@@ -1,9 +1,6 @@
 version: 2.1
 
-# Define the different job that will be ran this separate building form
-# testing for each configuration allowing to get more information out of the CI
 jobs:
-# CHANGELOG file checker
   ubuntu18:
     docker: 
       name: ubuntu:18.04
@@ -25,12 +22,7 @@ jobs:
           name: install pyne and its deps
           command: ./ubuntu18.04 dev
  
-
-
 # Workflow part:
-# This part defines the list of the jobs that will be ran and in which sequence.
-# The goal was to avoid running advanced configuration if PyNE does not work
-# with limited amount of dependencies.
 workflows:
   version: 2
   build:
