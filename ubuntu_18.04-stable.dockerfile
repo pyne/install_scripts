@@ -71,7 +71,7 @@ RUN cd $HOME/opt \
     && git clone https://github.com/pyne/pyne.git \
     && cd pyne \
     && TAG=$(git describe --abbrev=0 --tags) \
-    && git checkout origin/0.7.0-rc -b 0.7.0-rc \
+    && git checkout tags/`echo ${TAG}` -b `echo ${TAG}` \
     && python setup.py install --user \
                                --moab $HOME/opt/moab \
                                --dagmc $HOME/opt/dagmc \
