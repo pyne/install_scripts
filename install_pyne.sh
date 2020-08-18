@@ -35,12 +35,3 @@ add_export_var_to_bashrc "LIBRARY_PATH" "${HOME}/.local/lib"
 # Adding .local//bin to $PATH
 add_export_var_to_bashrc "PATH" "${HOME}/.local/bin"
 
-
-# Make Pyne Nuclear Data
-source ~/.bashrc
-cd
-nuc_data_make
-
-# Run tests
-cd ${install_dir}/pyne/tests
-./travis-run-tests.sh
