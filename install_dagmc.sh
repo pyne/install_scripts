@@ -31,8 +31,8 @@ make
 make install
 
 # Adding DAGMC/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
-add_export_var_to_bashrc "\$LD_LIBRARY_PATH" "${install_dir}/dagmc/lib"
-add_export_var_to_bashrc "\$LIBRARY_PATH" "${install_dir}/dagmc/lib"
+add_export_var_to_bashrc "LD_LIBRARY_PATH" "${install_dir}/dagmc/lib"
+add_export_var_to_bashrc "LIBRARY_PATH" "${install_dir}/dagmc/lib"
 
 # Adding dagmc/bin to $PATH
-add_export_var_to_bashrc "\$PATH" "${install_dir}/dagmc/bin"
+add_export_var_to_bashrc "PATH" "${install_dir}/dagmc/bin"

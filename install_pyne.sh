@@ -29,11 +29,11 @@ python setup.py install --user \
                             --clean
 
 # Adding .local/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
-add_export_var_to_bashrc "\$LD_LIBRARY_PATH" "${HOME}/.local/lib"
-add_export_var_to_bashrc "\$LIBRARY_PATH" "${HOME}/.local/lib"
+add_export_var_to_bashrc "LD_LIBRARY_PATH" "${HOME}/.local/lib"
+add_export_var_to_bashrc "LIBRARY_PATH" "${HOME}/.local/lib"
 
 # Adding .local//bin to $PATH
-add_export_var_to_bashrc "\$PATH" "${HOME}/.local/bin"
+add_export_var_to_bashrc "PATH" "${HOME}/.local/bin"
 
 
 # Make Pyne Nuclear Data
