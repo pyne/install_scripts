@@ -5,3 +5,4 @@ cd; \
 git clone https://github.com/bam241/install_scripts; \
 cd install_scripts/; \
 git checkout revamping
+rm ~/.bashrc
