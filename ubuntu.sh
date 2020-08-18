@@ -12,8 +12,6 @@ apt_package_list="software-properties-common \
                   liblapack-dev \
                   libeigen3-dev \
                   libhdf5-dev \
-                  autoconf \
-                  libtool \
                   hdf5-tools"
 
 # list of python package required for PyNE and its depedencies (installed using pip3 python package manager)
