@@ -1,5 +1,6 @@
 #!/bin/bash
-# Use package manager for as many packages as possible
+# list of package installed through apt-get 
+# (required to run this scripts and/or as dependancies for PyNE and its depedancies)
 apt_package_list="software-properties-common \
                   python3-pip \
                   wget \
@@ -15,6 +16,7 @@ apt_package_list="software-properties-common \
                   libtool \
                   hdf5-tools"
 
+# list of python package required for PyNE and its depedencies (installed using pip3 python package manager)
 pip_package_list="numpy \
                   scipy \
                   cython \
@@ -41,7 +43,7 @@ pip3 install --user ${pip_package_list}
 install_dir=${HOME}/opt
 mkdir -p ${install_dir}
 
-# need to put libhdf5.so on LD_LIBRARY_PATH (Makeing sure that LD_LIBRARY_PATH is defined first)
+# need to put libhdf5.so on LD_LIBRARY_PATH (Making sure that LD_LIBRARY_PATH is defined first)
 if [ -z $LD_LIBRARY_PATH ]; then
   export LD_LIBRARY_PATH="${hdf5_libdir}"
 else
@@ -52,7 +54,6 @@ fi
 ############
 ### MOAB ###
 ############
-
 # pre-setup
 cd ${install_dir}
 check_repo moab
@@ -91,11 +92,7 @@ fi
 #############
 ### DAGMC ###
 #############
-
-# Making sure MOAB is in the LD_LIBRARY_PATH
-source ~/.bashrc
-
-# pre-setup
+# pre-setup check that the directory we need are in place
 cd ${install_dir}
 check_repo dagmc
 mkdir -p dagmc
@@ -156,34 +153,43 @@ export LD_LIBRARY_PATH="${HOME}/.local/lib:$LD_LIBRARY_PATH"
 export PATH="${HOME}/.local/bin:$PATH"
 
 # Make Pyne Nuclear Data
-source ~/.bashrc
-cd
+cd  # cd without argument will take you back to your $HOME directory
 nuc_data_make
 
 # Run tests
 cd ${install_dir}/pyne/tests
 ./travis-run-tests.sh
 
-echo "export LD_LIBRARY_PATH=${hdf5_libdir}" >> ~/.bashrc
 
-# Adding MOAB/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
-add_export_var_to_bashrc 'LD_LIBRARY_PATH' "${install_dir}/moab/lib"
+echo " \
+# Add HDF5 \n
+if [ -z \$LD_LIBRARY_PATH ]; then \n
+  export LD_LIBRARY_PATH=\"${hdf5_libdir}\" \n
+else \n
+  export LD_LIBRARY_PATH=\"\${hdf5_libdir}:\$LD_LIBRARY_PATH\" \n
+fi \n
+export LD_LIBRARY_PATH=\"\${install_dir}/moab/lib:\$LD_LIBRARY_PATH\" \n
 
-# Adding pymoab to $PYTHONPATH
-PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
-add_export_var_to_bashrc 'PYTHONPATH' "$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages"
+# Adding pymoab to \$PYTHONPATH \n
+PYTHON_VERSION=$(python -c 'import sys; print(sys.version.split('')[0][0:3])') \n
+if [ -z \$PYTHONPATH ]; then \n
+  export PYTHONPATH=\"\$install_dir/moab/lib/python\${PYTHON_VERSION}/site-packages\" \n
+else \n
+  export PYTHONPATH=\"\$install_dir/moab/lib/python\${PYTHON_VERSION}/site-packages:\$PYTHONPATH\" \n
+fi \n
 
-# Adding DAGMC/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
-add_export_var_to_bashrc "LD_LIBRARY_PATH" "${install_dir}/dagmc/lib"
+# Adding MOAB/lib to \$LD_LIBRARY_PATH and \$LIBRARY_PATH \n
+add_export_var_to_bashrc 'LD_LIBRARY_PATH' \"\${install_dir}/moab/lib\" \n
 
-# Adding dagmc/bin to $PATH
-add_export_var_to_bashrc "PATH" "${install_dir}/dagmc/bin"
+export LD_LIBRARY_PATH=\"\${install_dir}/dagmc/lib:\$LD_LIBRARY_PATH\" \n
 
-# Adding .local/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
-add_export_var_to_bashrc "LD_LIBRARY_PATH" "${HOME}/.local/lib"
-
-# Adding .local//bin to $PATH
-add_export_var_to_bashrc "PATH" "${HOME}/.local/bin"
-
+# Adding dagmc/bin to \$PATH \n
+add_export_var_to_bashrc \"PATH\" \"\${install_dir}/dagmc/bin\" \n
+if [ -z \${PATH} ]; then \n
+  export PATH=\"\${install_dir}/dagmc/bin\" \n
+else \n
+  export PATH=\"\${install_dir}/dagmc/bin:\$PATH\" \n
+fi \n
+" >> .bashrc
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
 
