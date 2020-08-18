@@ -3,8 +3,12 @@
 set -e
 source utils.sh
 
+echo $LD_LIBRARY_PATH
+
 # Making sure MOAB is in the LD_LIBRARY_PATH
 source ~/.bashrc
+
+install_dir=$1
 
 # pre-setup
 cd ${install_dir}

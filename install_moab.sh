@@ -3,6 +3,10 @@
 set -e
 source utils.sh
 
+install_dir=$1
+
+source ~/.bashrc
+
 # pre-setup
 cd ${install_dir}
 check_repo moab
