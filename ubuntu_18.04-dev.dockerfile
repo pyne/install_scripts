@@ -27,29 +27,36 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10; \
 # upgrade pip and install python dependencies
 ENV PATH $HOME/.local/bin:$PATH
 RUN python -m pip install --user --upgrade pip
-RUN pip install --user numpy scipy cython nose tables matplotlib jinja2 \
-                       setuptools future
+RUN pip install --user numpy \
+                       scipy \
+                       cython \
+                       nose \
+                       tables \
+                       matplotlib \
+                       jinja2 \
+                       setuptools \
+                       future
 
 # make working directory
 WORKDIR $HOME/opt
 
 # build MOAB
 RUN mkdir moab \
-  && cd moab \
-  && git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
-  && mkdir build \
-  && cd build \
-  && cmake ../moab/ \
-            -DCMAKE_INSTALL_PREFIX=$HOME/opt/moab \
-            -DENABLE_HDF5=ON \
-            -DBUILD_SHARED_LIBS=ON \
-            -DENABLE_PYMOAB=ON \
-            -DENABLE_BLASLAPACK=OFF \
-            -DENABLE_FORTRAN=OFF \
-  && make \
-  && make install \
-  && cd .. \
-  && rm -rf build moab
+    && cd moab \
+    && git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
+    && mkdir build \
+    && cd build \
+    && cmake ../moab/ \
+             -DCMAKE_INSTALL_PREFIX=$HOME/opt/moab \
+             -DENABLE_HDF5=ON \
+             -DBUILD_SHARED_LIBS=ON \
+             -DENABLE_PYMOAB=ON \
+             -DENABLE_BLASLAPACK=OFF \
+             -DENABLE_FORTRAN=OFF \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf build moab
 
 # put MOAB on the path
 ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
@@ -61,9 +68,9 @@ RUN mkdir dagmc \
     && mkdir build \
     && cd build \
     && cmake ../DAGMC \
-            -DMOAB_DIR=$HOME/opt/moab \
-            -DBUILD_STATIC_LIBS=OFF \
-            -DCMAKE_INSTALL_PREFIX=$HOME/opt/dagmc \
+             -DMOAB_DIR=$HOME/opt/moab \
+             -DBUILD_STATIC_LIBS=OFF \
+             -DCMAKE_INSTALL_PREFIX=$HOME/opt/dagmc \
     && make \
     && make install \
     && cd .. \
