@@ -28,10 +28,19 @@ pip_package_list="numpy \
 # hdf5 std directory
 hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
 
-#!/bin/bash
-# This script contains common code for building PyNE on various Debian-derived systems
-#
-source utils.sh
+# function to check if build folder already exists
+function check_repo() {
+
+    repo_name=$1
+
+    if [ -d ${repo_name} ] ; then
+        read -p "Delete the existing ${repo_name} directory and all contents? (y/n) " -n 1 -r
+        if [[ $REPLY =~ ^[Yy]$ ]] ; then
+            rm -rf ${repo_name}
+        fi
+    fi
+
+}
 
 # system update
 sudo apt-get -y update
@@ -113,11 +122,8 @@ make install
 export LD_LIBRARY_PATH="${install_dir}/dagmc/lib:$LD_LIBRARY_PATH"
 
 # Adding dagmc/bin to $PATH
-if [ -z ${PATH} ]; then
-  export PATH="${install_dir}/dagmc/bin"
-else
-  export PATH="${install_dir}/dagmc/bin:$PATH"
-fi
+export PATH="${install_dir}/dagmc/bin:$PATH"
+
 
 ############
 ### PyNE ###
@@ -178,10 +184,6 @@ fi
 
 export LD_LIBRARY_PATH=\"\${install_dir}/dagmc/lib:\$LD_LIBRARY_PATH\" \n
 # Adding dagmc/bin to \$PATH \n
-=if [ -z \${PATH} ]; then \n
-  export PATH=\"\${install_dir}/dagmc/bin\" \n
-else \n
-  export PATH=\"\${install_dir}/dagmc/bin:\$PATH\" \n
-fi \n
+export PATH=\"\${install_dir}/dagmc/bin:\$PATH\" \n
 " >> .bashrc
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."

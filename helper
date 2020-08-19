@@ -1,7 +1,0 @@
-apt-get update; apt-get install -y git vim sudo python3 build-essential; \
-update-alternatives --install /usr/bin/python python /usr/bin/python3 10; \
-cd; \
-git clone https://github.com/bam241/install_scripts; \
-cd install_scripts/; \
-git checkout revamping; \
-rm ~/.bashrc
