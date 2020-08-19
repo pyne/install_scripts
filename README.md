@@ -13,12 +13,13 @@ Bash Scripts (*.sh)
 -------------------
 
 These scripts will install PyNE and its dependencies on the system.
-An install script is available for different versions of both Ubuntu and
-Mint operating systems. The intention of these
-scripts is that PyNE can be ready to use on a clean install of any of
-the supported operating systems. Furthermore, the user should choose either
-to build a stable version of PyNE or the current develop
-branch of PyNE by supplying a second argument. 
+An install script is available for different versions of both Ubuntu operating systems. 
+The intention of these scripts is that PyNE can be ready to use on a clean install of any of
+the supported operating systems: if users have customized/configured their python environment 
+beyond the default OS installation, we can't guarantee that the scripts will work.
+
+Furthermore, the user should choose either to build a stable version of PyNE or the current
+develop branch of PyNE by supplying a second argument. 
 
 Example for installing the most recent stable branch on Ubuntu 18.04:
 
@@ -42,7 +43,7 @@ version.
 Docker Builds (*.dockerfile)
 ----------------------------
 
-These dockerfiles can be used to build a docker image that has PyNE
+These Dockerfiles can be used to build a docker image that has PyNE
 installed. The dockerfile chosen will build on the version of Ubuntu
 listed (16.04 or 17.04). Furthermore, the user may choose either
 to build a stable version of PyNE ("-stable") or the current develop
