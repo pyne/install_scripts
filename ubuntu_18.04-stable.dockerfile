@@ -29,13 +29,11 @@ RUN python -m pip install --user --upgrade pip
 RUN pip install --user numpy scipy cython nose tables matplotlib jinja2 \
                        setuptools future
 
-# make starting directory
-RUN cd $HOME \
-  && mkdir opt
+# make working directory
+WORKDIR $HOME/opt
 
 # build MOAB
-RUN cd $HOME/opt \
-  && mkdir moab \
+RUN mkdir moab \
   && cd moab \
   && git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
   && mkdir build \
@@ -56,7 +54,8 @@ RUN cd $HOME/opt \
 ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
 ENV PYTHONPATH=$HOME/opt/moab/lib/python3.6/site-packages/
 
-RUN cd /root \
+RUN mkdir dagmc \
+    && cd dagmc \
     && git clone --branch develop --single-branch https://github.com/svalinn/DAGMC.git DAGMC \
     && mkdir build \
     && cd build \
@@ -71,8 +70,7 @@ RUN cd /root \
 
 
 # Install PyNE
-RUN cd $HOME/opt \
-    && git clone https://github.com/pyne/pyne.git \
+RUN git clone https://github.com/pyne/pyne.git \
     && cd pyne \
     && TAG=$(git describe --abbrev=0 --tags) \
     && git checkout tags/`echo ${TAG}` -b `echo ${TAG}` \
@@ -89,6 +87,6 @@ ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 
 RUN cd $HOME && nuc_data_make
 
-RUN cd $HOME/opt/pyne/tests \
+RUN cd pyne/tests \
     && ./travis-run-tests.sh \
     && echo "PyNE build complete. PyNE can be rebuilt with the alias 'build_pyne' executed from $HOME/opt/pyne"
