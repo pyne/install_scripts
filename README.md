@@ -13,15 +13,15 @@ Bash Scripts (*.sh)
 -------------------
 
 These scripts will install PyNE and its dependencies on the system.
-An install script is available for different versions of both Ubuntu operating systems. 
+An install script is available for different versions of Ubuntu operating systems. 
 The intention of these scripts is that PyNE can be ready to use on a clean install of any of
 the supported operating systems: if users have customized/configured their python environment 
 beyond the default OS installation, we can't guarantee that the scripts will work.
 
-Furthermore, the user should choose either to build a stable version of PyNE or the current
+Furthermore, the user should choose either to build a stable release version of PyNE or the current
 develop branch of PyNE by supplying a second argument. 
 
-Example for installing the most recent stable branch on Ubuntu 18.04:
+Example for installing the most recent stable branch on Ubuntu 20.04:
 
     ./ubuntu.sh stable
     
@@ -32,7 +32,7 @@ Example for installing the develop branch on Mint 18.01:
 **!!!WARNING!!!:** 
 
 Those scripts are intended to be used on python3 environment then assumes that 
-your system uses python3 as default.
+your system uses python3 as default when the `python` executable is run.
 To test which default Python version your system is using, run in a terminal:
 `python --version`.
 If it returns `Python 3.x.y`, you should be able to use our install scripts.
