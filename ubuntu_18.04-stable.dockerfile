@@ -18,7 +18,6 @@ RUN apt-get install -y software-properties-common \
 
 # need to put libhdf5.so on LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu
-ENV LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 
 # switch to python 3
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10; \
@@ -55,7 +54,6 @@ RUN cd $HOME/opt \
 
 # put MOAB on the path
 ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
-ENV LIBRARY_PATH $HOME/opt/moab/lib:$LIBRARY_PATH
 ENV PYTHONPATH=$HOME/opt/moab/lib/python3.6/site-packages/
 
 RUN cd /root \
