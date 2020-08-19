@@ -2,13 +2,19 @@ FROM ubuntu:20.04
 
 ENV HOME /root
 
+# install apt dependencies
 RUN apt-get -y  update
-RUN apt-get install -y  \
-    software-properties-common wget
-
-# pyne specific dependencies (excluding python libraries)
-RUN apt-get install -y build-essential git cmake gfortran libblas-dev \
-                       python3-pip liblapack-dev libeigen3-dev libhdf5-dev \
+RUN apt-get install -y software-properties-common \
+                       python3-pip \
+                       wget \
+                       build-essential \
+                       git \
+                       cmake \
+                       gfortran \
+                       libblas-dev \
+                       liblapack-dev \
+                       libeigen3-dev \
+                       libhdf5-dev \
                        hdf5-tools
 
 # need to put libhdf5.so on LD_LIBRARY_PATH
