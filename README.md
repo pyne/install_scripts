@@ -25,7 +25,7 @@ Example for installing the most recent stable branch on Ubuntu 20.04:
 
     ./ubuntu.sh stable
     
-Example for installing the develop branch on Mint 18.01:
+Example for installing the develop branch on Ubuntu:
 	
 	./ubuntu.sh dev
 
