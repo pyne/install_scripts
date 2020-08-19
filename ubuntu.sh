@@ -142,9 +142,6 @@ if [ $1 == 'stable' ] ; then
   git checkout tags/`echo ${TAG}` -b `echo ${TAG}`
 fi
 
-# Temp during release candidate
-git checkout 0.7.0-rc
-
 python setup.py install --user \
                         --moab ${install_dir}/moab \
                         --dagmc ${install_dir}/dagmc \
