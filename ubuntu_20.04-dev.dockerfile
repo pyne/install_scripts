@@ -2,6 +2,10 @@ FROM ubuntu:20.04
 
 ENV HOME /root
 
+# set timezone information (edit TZ for different timezone)
+ENV TZ=America/Chicago
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # install apt dependencies
 RUN apt-get -y  update
 RUN apt-get install -y software-properties-common \
