@@ -38,7 +38,9 @@ To test which default Python version your system is using, run in a terminal:
 If it returns `Python 3.x.y`, you should be able to use our install scripts.
 If it returns `Python 2.x.y`, our install 
 script will not work as is on your system. You will need to update the default python 
-version.
+version. To do so you can follow those 
+[instruction](https://gist.github.com/patrickmmartin/5b6b2ddecd29d6a1b2ffee2d8eea31ec).
+
 
 Docker Builds (*.dockerfile)
 ----------------------------
