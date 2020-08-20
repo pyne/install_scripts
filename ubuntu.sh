@@ -162,12 +162,12 @@ cd ${install_dir}/pyne/pyne-repo/tests
 
 
 echo " \
-# Add HDF5 \n
-if [ -z \$LD_LIBRARY_PATH ]; then \n
-  export LD_LIBRARY_PATH=\"${hdf5_libdir}\" \n
-else \n
-  export LD_LIBRARY_PATH=\"\${hdf5_libdir}:\$LD_LIBRARY_PATH\" \n
-fi \n
+# Add HDF5 
+if [ -z \$LD_LIBRARY_PATH ]; then 
+  export LD_LIBRARY_PATH=\"${hdf5_libdir}\" 
+else 
+  export LD_LIBRARY_PATH=\"\${hdf5_libdir}:\$LD_LIBRARY_PATH\" 
+fi 
 # Adding MOAB/lib to $LD_LIBRARY_PATH and $LIBRARY_PATH
 export LD_LIBRARY_PATH="${install_dir}/moab/lib:$LD_LIBRARY_PATH"
 
@@ -179,8 +179,8 @@ else
   export PYTHONPATH="$install_dir/moab/lib/python${PYTHON_VERSION}/site-packages:$PYTHONPATH"
 fi
 
-export LD_LIBRARY_PATH=\"\${install_dir}/dagmc/lib:\$LD_LIBRARY_PATH\" \n
-# Adding dagmc/bin to \$PATH \n
-export PATH=\"\${install_dir}/dagmc/bin:\$PATH\" \n
+export LD_LIBRARY_PATH=\"\${install_dir}/dagmc/lib:\$LD_LIBRARY_PATH\" 
+# Adding dagmc/bin to \$PATH 
+export PATH=\"\${install_dir}/dagmc/bin:\$PATH\" 
 " >> .bashrc
 echo "Run 'source ~/.bashrc' to update environment variables. PyNE may not function correctly without doing so."
