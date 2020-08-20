@@ -81,7 +81,7 @@ RUN mkdir dagmc \
     && rm -rf build DAGMC
 
 # Install OpenMC API
-RUN cd git clone https://github.com/openmc-dev/openmc.git \
+RUN git clone https://github.com/openmc-dev/openmc.git \
     && cd openmc && git checkout develop \
     && pip install . \
     && cd ..
