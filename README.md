@@ -1,9 +1,9 @@
 PyNE Install Scripts
 ====================
 
-In this repository, you will find both bash scripts and dockerfiles for various 
-Debian-derived systems. These scripts will install PyNE and its dependencies to 
-either your device or an [image](https://docs.docker.com/get-started/#images-and-containers). 
+In this repository, you will find both bash scripts and dockerfiles for various
+Debian-derived systems. These scripts will install PyNE and its dependencies to
+either your device or an [image](https://docs.docker.com/get-started/#images-and-containers).
 Docker allows users to build these images and to operate them separate from the rest of
 your device.
 
@@ -41,15 +41,14 @@ script will not work as is on your system. You will need to update the default p
 version. To do so you can follow those 
 [instruction](https://gist.github.com/patrickmmartin/5b6b2ddecd29d6a1b2ffee2d8eea31ec).
 
-
 Docker Builds (*.dockerfile)
 ----------------------------
 
 These Dockerfiles can be used to build a docker image that has PyNE
 installed. The dockerfile chosen will build on the version of Ubuntu
-listed (16.04 or 17.04). Furthermore, the user may choose either
+listed (18.04 or 20.04). Furthermore, the user may choose either
 to build a stable version of PyNE ("-stable") or the current develop
 branch of PyNE ("-dev") for each. Example for building a docker image
-of the latest stable branch of PyNE based on Ubuntu 16.04:
+of the latest stable branch of PyNE based on Ubuntu 20.04:
 
-    docker build -f ubuntu_16.04-stable.dockerfile -t pyne-ubuntu-16.04-stable .
+    docker build -f ubuntu_20.04-stable.dockerfile -t pyne-ubuntu-20.04-stable .

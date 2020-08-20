@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV HOME /root
 
@@ -64,7 +64,7 @@ RUN mkdir moab \
 
 # put MOAB on the path
 ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
-ENV PYTHONPATH $HOME/opt/moab/lib/python3.6/site-packages/
+ENV PYTHONPATH $HOME/opt/moab/lib/python3.8/site-packages/
 
 RUN mkdir dagmc \
     && cd dagmc \
@@ -84,6 +84,8 @@ RUN mkdir dagmc \
 # Install PyNE
 RUN git clone https://github.com/pyne/pyne.git \
     && cd pyne \
+    && TAG=$(git describe --abbrev=0 --tags) \
+    && git checkout tags/`echo ${TAG}` -b `echo ${TAG}` \
     && python setup.py install --user \
                                --moab $HOME/opt/moab \
                                --dagmc $HOME/opt/dagmc \
