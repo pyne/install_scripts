@@ -80,6 +80,11 @@ RUN mkdir dagmc \
     && cd .. \
     && rm -rf build DAGMC
 
+# Install OpenMC API
+RUN cd git clone https://github.com/openmc-dev/openmc.git \
+    && cd openmc && git checkout develop \
+    && pip install . \
+    && cd ..
 
 # Install PyNE
 RUN git clone https://github.com/pyne/pyne.git \
@@ -96,11 +101,6 @@ RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
 ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 
 RUN cd $HOME && nuc_data_make
-
-# Install OpenMC API
-RUN cd $HOME/opt && git clone https://github.com/openmc-dev/openmc.git \
-    && cd $HOME/opt/openmc && git checkout develop \
-    && pip install .
 
 RUN cd $HOME/opt/pyne/tests \
     && ./travis-run-tests.sh \
