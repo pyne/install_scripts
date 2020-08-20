@@ -98,9 +98,9 @@ ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 RUN cd $HOME && nuc_data_make
 
 # Install OpenMC API
-RUN cd $HOME/opt && git clone https://github.com/openmc-dev/openmc.git
-RUN cd $HOME/opt/openmc && git checkout develop
-RUN pip install .
+RUN cd $HOME/opt && git clone https://github.com/openmc-dev/openmc.git \
+    && cd $HOME/opt/openmc && git checkout develop \
+    && pip install .
 
 RUN cd $HOME/opt/pyne/tests \
     && ./travis-run-tests.sh \

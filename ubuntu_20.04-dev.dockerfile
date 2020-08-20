@@ -9,7 +9,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # install apt dependencies
 RUN apt-get -y  update
 RUN apt-get install -y software-properties-common \
-                       python-is-python3 \
+                       python3-pip \
                        wget \
                        build-essential \
                        git \
@@ -24,8 +24,9 @@ RUN apt-get install -y software-properties-common \
 # need to put libhdf5.so on LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 
-# pip3 as pip sym link
-RUN ln -s /usr/bin/pip3 /usr/bin/pip
+# switch to python 3
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10; \
+    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10;
 
 # upgrade pip and install python dependencies
 ENV PATH $HOME/.local/bin:$PATH
@@ -97,9 +98,9 @@ ENV LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH
 RUN cd $HOME && nuc_data_make
 
 # Install OpenMC API
-RUN cd $HOME/opt && git clone https://github.com/openmc-dev/openmc.git
-RUN cd $HOME/opt/openmc && git checkout develop
-RUN pip install .
+RUN cd $HOME/opt && git clone https://github.com/openmc-dev/openmc.git \
+    && cd $HOME/opt/openmc && git checkout develop \
+    && pip install .
 
 RUN cd $HOME/opt/pyne/tests \
     && ./travis-run-tests.sh \

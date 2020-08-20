@@ -156,11 +156,12 @@ export PATH="${HOME}/.local/bin:$PATH"
 cd  # cd without argument will take you back to your $HOME directory
 nuc_data_make
 
-cd ~/opt
+# OpenMC API
+cd ${install_dir}
 git clone https://github.com/openmc-dev/openmc.git
 cd openmc
 git checkout develop
-pip install .
+pip3 install .
 
 # Run tests
 cd ${install_dir}/pyne/tests
