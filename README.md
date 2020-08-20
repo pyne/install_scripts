@@ -13,26 +13,39 @@ Bash Scripts (*.sh)
 -------------------
 
 These scripts will install PyNE and its dependencies on the system.
-Install scripts are available for different versions of both Ubuntu and
-Mint operating systems. The script used to install PyNE should correspond
-to the user's operating system and version. The intention of these
-scripts is that PyNE can be ready to use on a clean install of any of
-the supported operating systems. Furthermore, the user should choose either
-to build a stable version of PyNE or the current develop
-branch of PyNE by supplying a second argument. 
+An install script is available for different versions of Ubuntu operating systems. 
+The intention of these scripts is that PyNE can be ready to use on a clean install of any of
+the supported operating systems: if users have customized/configured their python environment 
+beyond the default OS installation, we can't guarantee that the scripts will work.
 
-Example for installing the most recent stable branch on Ubuntu 16.04:
+Furthermore, the user should choose either to build a stable release version of PyNE or the current
+develop branch of PyNE by supplying a second argument. 
 
-    ./ubuntu_16.04.sh stable
+Example for installing the most recent stable branch on Ubuntu 20.04:
+
+    ./ubuntu.sh stable
     
-Example for installing the develop branch on Mint 18.01:
+Example for installing the develop branch on Ubuntu:
 	
-	./mint_18.01.sh dev
+	./ubuntu.sh dev
+
+**!!!WARNING!!!:** 
+
+Those scripts are intended to be used on python3 environment then assumes that 
+your system uses python3 as default when the `python` executable is run.
+To test which default Python version your system is using, run in a terminal:
+`python --version`.
+If it returns `Python 3.x.y`, you should be able to use our install scripts.
+If it returns `Python 2.x.y`, our install 
+script will not work as is on your system. You will need to update the default python 
+version. To do so you can follow those 
+[instruction](https://gist.github.com/patrickmmartin/5b6b2ddecd29d6a1b2ffee2d8eea31ec).
+
 
 Docker Builds (*.dockerfile)
 ----------------------------
 
-These dockerfiles can be used to build a docker image that has PyNE
+These Dockerfiles can be used to build a docker image that has PyNE
 installed. The dockerfile chosen will build on the version of Ubuntu
 listed (16.04 or 17.04). Furthermore, the user may choose either
 to build a stable version of PyNE ("-stable") or the current develop
