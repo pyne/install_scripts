@@ -64,7 +64,7 @@ RUN mkdir moab \
 
 # put MOAB on the path
 ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
-ENV PYTHONPATH=$HOME/opt/moab/lib/python3.6/site-packages/
+ENV PYTHONPATH $HOME/opt/moab/lib/python3.6/site-packages/
 
 RUN mkdir dagmc \
     && cd dagmc \
