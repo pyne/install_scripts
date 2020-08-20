@@ -83,8 +83,7 @@ RUN mkdir dagmc \
 # Install OpenMC API
 RUN git clone https://github.com/openmc-dev/openmc.git \
     && cd openmc && git checkout develop \
-    && pip install . \
-    && cd ..
+    && pip install .
 
 # Install PyNE
 RUN git clone https://github.com/pyne/pyne.git \
