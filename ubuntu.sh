@@ -157,7 +157,7 @@ cd  # cd without argument will take you back to your $HOME directory
 nuc_data_make
 
 # Run tests
-cd ${install_dir}/pyne/tests
+cd ${install_dir}/pyne/pyne-repo/tests
 ./travis-run-tests.sh
 
 
