@@ -124,6 +124,21 @@ export LD_LIBRARY_PATH="${install_dir}/dagmc/lib:$LD_LIBRARY_PATH"
 # Adding dagmc/bin to $PATH
 export PATH="${install_dir}/dagmc/bin:$PATH"
 
+####################
+### OpenMC API #####
+####################
+
+cd ${install_dir}
+git clone https://github.com/openmc-dev/openmc.git
+cd openmc
+git checkout develop
+mkdir bld
+cd bld
+cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local
+make
+make install
+cd ..
+pip3 install .
 
 ############
 ### PyNE ###
