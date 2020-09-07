@@ -189,9 +189,9 @@ export LD_LIBRARY_PATH=\"${install_dir}/moab/lib:\$LD_LIBRARY_PATH\"
 # Adding pymoab to \$PYTHONPATH
 PYTHON_VERSION=\$(python -c 'import sys; print(sys.version.split('')[0][0:3])')
 if [ -z \$PYTHONPATH ]; then
-  export PYTHONPATH="$install_dir/moab/lib/python\${PYTHON_VERSION}/site-packages"
+  export PYTHONPATH=\"${install_dir}/moab/lib/python\${PYTHON_VERSION}/site-packages\"
 else
-  export PYTHONPATH="$install_dir/moab/lib/python\${PYTHON_VERSION}/site-packages:\$PYTHONPATH"
+  export PYTHONPATH=\"${install_dir}/moab/lib/python\${PYTHON_VERSION}/site-packages:\$PYTHONPATH\"
 fi
 
 export LD_LIBRARY_PATH=\"${install_dir}/dagmc/lib:\$LD_LIBRARY_PATH\" 
