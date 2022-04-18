@@ -35,11 +35,12 @@ RUN pip install --user numpy \
                        scipy \
                        cython \
                        nose \
-                       tables \
+                       "tables<3.7" \
                        matplotlib \
                        jinja2 \
                        setuptools \
-                       future
+                       future \
+                       progress
 
 # make working directory
 WORKDIR $HOME/opt
@@ -97,7 +98,6 @@ RUN git clone https://github.com/pyne/pyne.git \
                                --moab $HOME/opt/moab \
                                --dagmc $HOME/opt/dagmc \
                                --clean
-
 RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
     && echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc \
     && echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=\$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=\$HOME/opt/moab/include'" >> ~/.bashrc

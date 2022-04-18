@@ -35,11 +35,12 @@ RUN pip install --user numpy \
                        scipy \
                        cython \
                        nose \
-                       tables \
+                       "tables<3.7" \
                        matplotlib \
                        jinja2 \
                        setuptools \
-                       future
+                       future \
+                       progress
 
 # make working directory
 WORKDIR $HOME/opt
