@@ -70,6 +70,10 @@ ENV PYTHONPATH $HOME/opt/moab/lib/python3.6/site-packages/
 RUN mkdir dagmc \
     && cd dagmc \
     && git clone --branch develop --single-branch https://github.com/svalinn/DAGMC.git DAGMC \
+    && cd DAGMC \
+    && TAG=$(git describe --abbrev=0 --tags) \
+    && git checkout tags/`echo ${TAG}` -b `echo ${TAG}` \
+    && cd .. \
     && mkdir build \
     && cd build \
     && cmake ../DAGMC \
