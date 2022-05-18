@@ -35,7 +35,7 @@ RUN pip install --user numpy \
                        scipy \
                        cython \
                        nose \
-                       "tables<3.7" \
+                       tables \
                        matplotlib \
                        jinja2 \
                        setuptools \
@@ -48,7 +48,7 @@ WORKDIR $HOME/opt
 # build MOAB
 RUN mkdir moab \
     && cd moab \
-    && git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
+    && git clone --branch 5.3.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
     && mkdir build \
     && cd build \
     && cmake ../moab/ \
