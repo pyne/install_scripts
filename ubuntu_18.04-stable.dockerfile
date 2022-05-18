@@ -19,14 +19,19 @@ RUN apt-get install -y software-properties-common \
                        liblapack-dev \
                        libeigen3-dev \
                        libhdf5-dev \
-                       hdf5-tools
+                       hdf5-tools \
+                       g++-8
 
 # need to put libhdf5.so on LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu
 
-# switch to python 3
+# switch to python 3 and to gcc8
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10; \
-    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10;
+    update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10; \
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 7; \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 7; \
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 8; \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 8;
 
 # upgrade pip and install python dependencies
 ENV PATH $HOME/.local/bin:$PATH
@@ -35,7 +40,7 @@ RUN pip install --user numpy \
                        scipy \
                        cython \
                        nose \
-                       "tables<3.7" \
+                       tables \
                        matplotlib \
                        jinja2 \
                        setuptools \
@@ -48,7 +53,7 @@ WORKDIR $HOME/opt
 # build MOAB
 RUN mkdir moab \
     && cd moab \
-    && git clone --branch Version5.1.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
+    && git clone --branch 5.3.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
     && mkdir build \
     && cd build \
     && cmake ../moab/ \
@@ -84,6 +89,7 @@ RUN mkdir dagmc \
     && make install \
     && cd .. \
     && rm -rf build DAGMC
+
 
 # Install OpenMC API
 RUN git clone https://github.com/openmc-dev/openmc.git \
