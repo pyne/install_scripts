@@ -48,7 +48,7 @@ WORKDIR $HOME/opt
 # build MOAB
 RUN mkdir moab \
     && cd moab \
-    && git clone --branch 5.3.0 --single-branch https://bitbucket.org/fathomteam/moab moab \
+    && git clone --branch 5.3.1 --single-branch https://bitbucket.org/fathomteam/moab moab \
     && mkdir build \
     && cd build \
     && cmake ../moab/ \
