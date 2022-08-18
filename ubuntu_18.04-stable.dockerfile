@@ -72,12 +72,11 @@ RUN mkdir moab \
 ENV LD_LIBRARY_PATH $HOME/opt/moab/lib:$LD_LIBRARY_PATH
 ENV PYTHONPATH $HOME/opt/moab/lib/python3.6/site-packages/
 
+# Install DAGMC
 RUN mkdir dagmc \
     && cd dagmc \
-    && git clone --branch develop --single-branch https://github.com/svalinn/DAGMC.git DAGMC \
+    && git clone --branch v3.2.2 --single-branch https://github.com/svalinn/DAGMC.git DAGMC \
     && cd DAGMC \
-    && TAG=$(git describe --abbrev=0 --tags) \
-    && git checkout tags/`echo ${TAG}` -b `echo ${TAG}` \
     && cd .. \
     && mkdir build \
     && cd build \
@@ -90,10 +89,9 @@ RUN mkdir dagmc \
     && cd .. \
     && rm -rf build DAGMC
 
-
 # Install OpenMC API
 RUN git clone https://github.com/openmc-dev/openmc.git \
-    && cd openmc && git checkout develop \
+    && cd openmc && git checkout tags/v0.12.2 -b v0.12.2 \
     && mkdir bld && cd bld \
     && cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local \
     && make && make install \
@@ -102,13 +100,11 @@ RUN git clone https://github.com/openmc-dev/openmc.git \
 # Install PyNE
 RUN git clone https://github.com/pyne/pyne.git \
     && cd pyne \
-    && TAG=$(git describe --abbrev=0 --tags) \
-    && git checkout tags/`echo ${TAG}` -b `echo ${TAG}` \
+    && git checkout tags/0.7.7 -b 0.7.7 \
     && python setup.py install --user \
                                --moab $HOME/opt/moab \
                                --dagmc $HOME/opt/dagmc \
                                --clean
-
 RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
     && echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc \
     && echo "alias build_pyne='python setup.py install --user -- -DMOAB_LIBRARY=\$HOME/opt/moab/lib -DMOAB_INCLUDE_DIR=\$HOME/opt/moab/include'" >> ~/.bashrc
