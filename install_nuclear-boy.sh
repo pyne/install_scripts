@@ -1,8 +1,7 @@
 #!/bin/bash
 
-detect_os ()
-{
-  if [[ ( -z "${os}" ) && ( -z "${dist}" ) ]]; then
+detect_os() {
+  if [[ (-z "${os}") && (-z "${dist}") ]]; then
     # some systems dont have lsb-release yet have the lsb_release binary and
     # vice-versa
     if [ -e /etc/lsb-release ]; then
@@ -10,7 +9,7 @@ detect_os ()
 
       if [ "${ID}" = "raspbian" ]; then
         os=${ID}
-        dist=`cut --delimiter='.' -f1 /etc/debian_version`
+        dist=$(cut --delimiter='.' -f1 /etc/debian_version)
       else
         os=${DISTRIB_ID}
         dist=${DISTRIB_CODENAME}
@@ -20,18 +19,18 @@ detect_os ()
         fi
       fi
 
-    elif [ `which lsb_release 2>/dev/null` ]; then
-      dist=`lsb_release -c | cut -f2`
-      os=`lsb_release -i | cut -f2 | awk '{ print tolower($1) }'`
+    elif [ $(which lsb_release 2>/dev/null) ]; then
+      dist=$(lsb_release -c | cut -f2)
+      os=$(lsb_release -i | cut -f2 | awk '{ print tolower($1) }')
 
     elif [ -e /etc/debian_version ]; then
       # some Debians have jessie/sid in their /etc/debian_version
       # while others have '6.0.7'
-      os=`cat /etc/issue | head -1 | awk '{ print tolower($1) }'`
+      os=$(cat /etc/issue | head -1 | awk '{ print tolower($1) }')
       if grep -q '/' /etc/debian_version; then
-        dist=`cut --delimiter='/' -f1 /etc/debian_version`
+        dist=$(cut --delimiter='/' -f1 /etc/debian_version)
       else
-        dist=`cut --delimiter='.' -f1 /etc/debian_version`
+        dist=$(cut --delimiter='.' -f1 /etc/debian_version)
       fi
 
     else
@@ -50,13 +49,13 @@ detect_os ()
   fi
 
   # remove whitespace from OS and dist name
-  os="${os// /}" 
+  os="${os// /}"
   dist="${dist// /}"
 
   echo "Detected operating system as $os/$dist."
 }
 
-detect_version_id () {
+detect_version_id() {
   # detect version_id and round down float to integer
   if [ -f /etc/os-release ]; then
     . /etc/os-release
@@ -71,8 +70,7 @@ detect_version_id () {
   echo "Detected version id as $version_id"
 }
 
-set_install_directory ()
-{
+set_install_directory() {
   working_dir="$(cd -P "$(dirname -- "${BASH_SOURCE}")" >/dev/null 2>&1 && pwd)"
   while true; do
     echo "Please enter the installation directory path:"
@@ -87,13 +85,13 @@ set_install_directory ()
       echo "Installing application in directory: $install_dir"
       break
     else
-      echo "Error: Directory $install_dir does not exist." 
+      echo "Error: Directory $install_dir does not exist."
       echo
     fi
   done
 }
 
-set_env_name(){
+set_env_name() {
   read -p "Enter environment name (or press enter for default 'nuclear-boy'): " env_name
 
   if [ -z "$env_name" ]; then
@@ -105,15 +103,18 @@ set_env_name(){
   env_dir="$install_dir/$env_name"
 }
 
-get_sudo_password ()
-{
+get_sudo_password() {
   # Ask for the administrator password upfront
   sudo -v
   # Keep-alive: update existing sudo time stamp until the script has finished
-  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+  while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+  done 2>/dev/null &
 }
 
-# list of package installed through apt-get 
+# list of package installed through apt-get
 apt_package_list="software-properties-common \
                   python3-dev \
                   python3-pip \
@@ -133,7 +134,7 @@ apt_package_list="software-properties-common \
                   libboost-python-dev \
                   cython3"
 
-# list of python package 
+# list of python package
 pip_package_list="numpy \
                   cython \
                   setuptools \
@@ -142,13 +143,12 @@ pip_package_list="numpy \
                   tables \
                   future"
 
-setup_dependencies ()
-{
+setup_dependencies() {
   echo "--------------------------"
   echo "Installing dependencies..."
   echo "--------------------------"
   # Check if the OS supports apt-get
-  if ! command -v apt-get &> /dev/null; then
+  if ! command -v apt-get &>/dev/null; then
     echo "Unfortunately, your operating system does not support apt-get."
     exit 1
   fi
@@ -158,7 +158,7 @@ setup_dependencies ()
   sleep 2
 }
 
-setup_python_env () {
+setup_python_env() {
   echo "---------------------------------"
   echo "Setting up virtual environment..."
   echo "---------------------------------"
@@ -174,7 +174,7 @@ setup_python_env () {
   echo "Python virtual env created."
 }
 
-set_ld_library_path(){
+set_ld_library_path() {
   # hdf5 std directory
   hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
   # need to put libhdf5.so on LD_LIBRARY_PATH
@@ -186,7 +186,7 @@ set_ld_library_path(){
   fi
 }
 
-install_moab(){
+install_moab() {
   echo "------------------"
   echo "Installing MOAB..."
   echo "------------------"
@@ -198,11 +198,11 @@ install_moab(){
   cd build
   # cmake, build and install
   cmake ../ -DENABLE_HDF5=ON -DHDF5_ROOT=${hdf5_libdir} \
-            -DBUILD_SHARED_LIBS=ON \
-            -DENABLE_PYMOAB=ON \
-            -DENABLE_BLASLAPACK=OFF \
-            -DENABLE_FORTRAN=OFF \
-            -DCMAKE_INSTALL_PREFIX=${env_dir}
+    -DBUILD_SHARED_LIBS=ON \
+    -DENABLE_PYMOAB=ON \
+    -DENABLE_BLASLAPACK=OFF \
+    -DENABLE_FORTRAN=OFF \
+    -DCMAKE_INSTALL_PREFIX=${env_dir}
   make
   make install
   cd ${env_dir}
@@ -210,7 +210,7 @@ install_moab(){
   echo "MOAB installed"
 }
 
-install_dagmc(){
+install_dagmc() {
   echo "-------------------"
   echo "Installing DAGMC..."
   echo "-------------------"
@@ -224,9 +224,9 @@ install_dagmc(){
   cd build
   # cmake, build and install
   cmake ../ -DMOAB_CMAKE_CONFIG=$env_dir/lib/cmake/MOAB \
-            -DMOAB_DIR=$env_dir \
-            -DBUILD_STATIC_LIBS=OFF \
-            -DCMAKE_INSTALL_PREFIX=$env_dir
+    -DMOAB_DIR=$env_dir \
+    -DBUILD_STATIC_LIBS=OFF \
+    -DCMAKE_INSTALL_PREFIX=$env_dir
   make
   make install
   cd ${env_dir}
@@ -234,7 +234,7 @@ install_dagmc(){
   echo "DAGMC installed"
 }
 
-install_openmc(){
+install_openmc() {
   echo "--------------------"
   echo "Installing OpenMC..."
   echo "--------------------"
@@ -245,7 +245,10 @@ install_openmc(){
   mkdir bld
   cd bld
   # cmake, build and install
-  cmake .. -DCMAKE_INSTALL_PREFIX=${env_dir}
+  cmake ../ -DCMAKE_INSTALL_PREFIX=$env_dir \
+    -DOPENMC_USE_DAGMC=ON \
+    -DAGMC=$env_dir
+
   make
   make install
   cd ..
@@ -255,7 +258,7 @@ install_openmc(){
   echo "OpenMC installed"
 }
 
-install_pyne(){
+install_pyne() {
   echo "------------------"
   echo "Installing PyNE..."
   echo "------------------"
@@ -265,9 +268,9 @@ install_pyne(){
   git clone https://github.com/pyne/pyne.git pyne-repo
   cd pyne-repo
   python3 setup.py install --prefix ${env_dir} \
-                           --moab ${env_dir} \
-                           --dagmc ${env_dir} \
-                           --clean
+    --moab ${env_dir} \
+    --dagmc ${env_dir} \
+    --clean
   cd ${env_dir}
   rm -rf "${env_dir}/pyne-repo"
   echo "PyNE installed"
@@ -275,13 +278,12 @@ install_pyne(){
   nuc_data_make
 }
 
-create_program_file ()
-{
+create_program_file() {
   echo "Creating program..."
   if [ -f "${env_dir}/${env_name}" ]; then
     rm "${env_dir}/${env_name}"
   fi
-  cat > ${env_dir}/${env_name} << EOF
+  cat >${env_dir}/${env_name} <<EOF
 #!/bin/bash
 
 if [ -z $LD_LIBRARY_PATH ]; then
@@ -297,32 +299,30 @@ EOF
   echo "${env_name} created."
 }
 
-create_shortcut ()
-{
+create_shortcut() {
   if [ -f "/usr/bin/${env_name}" ]; then
-  echo "Shortcut already exists!"
-  read -p "Are you sure you want to delete ${env_name}? (y/n) " choice
-  case "$choice" in
-    y|Y )
+    echo "Shortcut already exists!"
+    read -p "Are you sure you want to delete ${env_name}? (y/n) " choice
+    case "$choice" in
+    y | Y)
       sudo rm -rf "/usr/bin/${env_name}"
       sudo ln -s ${env_dir}/${env_name} /usr/bin/${env_name}
       echo "New shortcut created."
       ;;
-    n|N )
+    n | N)
       echo "Deletion cancelled."
       ;;
-    * )
+    *)
       echo "Invalid choice. Deletion cancelled."
       ;;
-  esac
-else
-  sudo ln -s ${env_dir}/${env_name} /usr/bin/${env_name}
-  echo "Shortcut created."
-fi
+    esac
+  else
+    sudo ln -s ${env_dir}/${env_name} /usr/bin/${env_name}
+    echo "Shortcut created."
+  fi
 }
 
-main ()
-{
+main() {
   detect_os
   detect_version_id
   echo "Welcome to the Nuclear Boy installer!"
