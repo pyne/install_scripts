@@ -136,6 +136,7 @@ apt_package_list="software-properties-common \
 # list of python package 
 pip_package_list="numpy \
                   cython \
+                  setuptools \
                   jinja2 \
                   progress \
                   tables \
@@ -248,7 +249,7 @@ install_openmc(){
   make
   make install
   cd ..
-  pip3 install -e .[test]
+  pip3 install .
   cd ${env_dir}
   rm -rf "${env_dir}/openmc-repo"
   echo "OpenMC installed"
@@ -339,10 +340,12 @@ main ()
   install_pyne
   create_program_file
   create_shortcut
-  echo "=============================================="
+  echo "==============================================="
   echo "Nuclear Boy installation finished"
   echo "To activate Nuclear Boy in your terminal type:"
   echo "source ${env_name}"
-  echo "=============================================="
+  echo "Recommended packages can be installed through:"
+  echo "pip3 install -r packages.txt --default-timeout=0"
+  echo "================================================"
 }
 main
