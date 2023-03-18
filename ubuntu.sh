@@ -2,9 +2,14 @@
 # list of package installed through apt-get 
 # (required to run this scripts and/or as dependancies for PyNE and its depedancies)
 apt_package_list="software-properties-common \
-                  python3-pip \
                   wget \
+                  g++ \
                   build-essential \
+                  python3-setuptools \
+                  python3-pip \
+                  python3-dev \
+                  python3-packaging \
+                  libpython3-dev \
                   git \
                   cmake \
                   gfortran \
@@ -12,18 +17,29 @@ apt_package_list="software-properties-common \
                   liblapack-dev \
                   libeigen3-dev \
                   libhdf5-dev \
+                  libhdf5-serial-dev \
+                  autoconf \
+                  libtool \
+                  doxygen \
                   hdf5-tools"
 
 # list of python package required for PyNE and its depedencies (installed using pip3 python package manager)
-pip_package_list="numpy \
-                  scipy \
-                  cython \
-                  nose \
-                  tables \
-                  matplotlib \
-                  jinja2 \
-                  setuptools \
-                  future"
+pip_package_list_a='sphinx \ 
+                    cloud_sptheme \
+                    prettytable \
+                    "setuptools<49" \
+                    sphinxcontrib_bibtex \
+                    numpydoc \
+                    nbconvert \
+                    numpy \
+                    nose \
+                    cython \
+                    future \
+                    "tables<3.7" \
+                    scipy \
+                    jinja2 \
+                    progress'
+pip_package_list_b='matplotlib'
 
 # hdf5 std directory
 hdf5_libdir=/usr/lib/x86_64-linux-gnu/hdf5/serial
@@ -45,7 +61,9 @@ function check_repo() {
 # system update
 sudo apt-get -y update
 sudo apt-get install -y ${apt_package_list}
-pip3 install --user ${pip_package_list}
+pip3 install --upgrade pip
+pip3 install --force-reinstall --user ${pip_package_list_a}
+pip3 install ${pip_pacakge_list_b}
 
 install_dir=${HOME}/opt
 mkdir -p ${install_dir}

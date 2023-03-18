@@ -39,7 +39,8 @@ RUN pip install --user numpy \
                        matplotlib \
                        jinja2 \
                        setuptools \
-                       future
+                       future \
+                       progress
 
 # make working directory
 WORKDIR $HOME/opt
@@ -94,7 +95,7 @@ RUN git clone https://github.com/pyne/pyne.git \
     && python setup.py install --user \
                                --moab $HOME/opt/moab \
                                --dagmc $HOME/opt/dagmc \
-                               --clean
+                               --clean --slow
 
 RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ~/.bashrc \
     && echo "export LD_LIBRARY_PATH=$HOME/.local/lib:\$LD_LIBRARY_PATH" >> ~/.bashrc \
